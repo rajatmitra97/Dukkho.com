@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>ধরে রাখো — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cellipse cx='16' cy='18' rx='4' ry='7' fill='%23E8945A'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;--latin:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--void);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  ::selection{background:rgba(232,148,90,.22);color:var(--moon)}
+  #c{position:fixed;inset:0;z-index:1;touch-action:none}
+  .veil{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(130% 100% at 50% 60%,transparent 40%,rgba(7,6,9,.7) 92%)}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:20;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;letter-spacing:.02em;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #timer{position:fixed;top:1.3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--latin);font-size:1.4rem;letter-spacing:.14em;color:var(--moon-soft);opacity:0;transition:opacity 1s}
+  #timer.on{opacity:.85}
+  #hint{position:fixed;left:50%;bottom:12%;transform:translateX(-50%);z-index:20;text-align:center;color:var(--smoke);font-size:.95rem;letter-spacing:.1em;max-width:80vw;transition:opacity 1.2s var(--ease)}
+  #strain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(120% 100% at 50% 55%,transparent 45%,rgba(168,84,49,.001) 60%,rgba(120,30,20,.28) 100%);transition:opacity .5s}
+
+  .overlay{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 46%,#0d0b10,var(--void-deep) 75%);transition:opacity 1.6s var(--ease),visibility 1.6s}
+  .overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .overlay .in{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:1.6rem;animation:rise 1.8s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(3rem,12vw,6rem);color:var(--moon);line-height:.95;text-shadow:0 0 50px rgba(232,148,90,.18)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.4vw,1.35rem);line-height:1.8;max-width:32ch}
+  .epi cite{display:block;margin-top:.8rem;font-style:normal;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--smoke-dim)}
+  .cta{margin-top:.6rem;font-family:var(--sans);font-weight:400;font-size:1rem;letter-spacing:.4em;color:var(--diya);padding:.85rem 2.4rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover{border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.15);letter-spacing:.46em}
+  .sub{font-size:.8rem;letter-spacing:.14em;color:var(--smoke-dim);max-width:30ch;line-height:1.9}
+
+  #end .stat{font-family:var(--serif);color:var(--moon);font-size:clamp(1.4rem,5vw,2.2rem);line-height:1.5}
+  #end .big{font-family:var(--serif);color:var(--diya);font-size:clamp(2.4rem,10vw,4rem);line-height:1;text-shadow:0 0 40px rgba(232,148,90,.2)}
+  #end .lines{color:var(--smoke);font-size:clamp(.95rem,2.6vw,1.08rem);line-height:2;max-width:34ch}
+  #end .lines b{color:var(--moon-soft);font-weight:400}
+  #end .gift{font-family:var(--serif);font-style:italic;color:var(--diya);opacity:.85;font-size:clamp(1.05rem,3.2vw,1.3rem);max-width:30ch;line-height:1.7}
+  .row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.6rem}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.2em;color:var(--smoke);padding:.7rem 1.8rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div class="veil"></div>
+  <div id="strain"></div>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <div id="timer">০:০০</div>
+  <div id="hint"></div>
+
+  <div class="overlay" id="start">
+    <div class="in">
+      <h1 class="title">ধরে রাখো</h1>
+      <p class="epi">“বাতাস নিষ্ঠুর হয়। শিখা কেঁপে ওঠে। হাত ব্যথা করে।”<cite>দুঃখ</cite></p>
+      <button class="cta" id="begin">চেপে ধরো</button>
+      <p class="sub">চেপে ধরে রাখলে শিখা আড়াল থাকে। কিন্তু হাত ক্লান্ত হয় — মাঝে মাঝে ছেড়ে আবার ধরতে হয়। বাতাস শুধু বাড়তেই থাকবে। ছেড়ে দেওয়া অনিবার্য।</p>
+    </div>
+  </div>
+
+  <div class="overlay gone" id="end">
+    <div class="in">
+      <p class="stat">শিখা নিভে গেছে।</p>
+      <p class="big" id="e-time">০:০০</p>
+      <p class="lines" id="e-lines"></p>
+      <p class="gift" id="e-gift"></p>
+      <div class="row">
+        <button class="btn2" id="again">আবার ধরো</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cv=document.getElementById('c'),ctx=cv.getContext('2d');
+  var DPR=Math.min(window.devicePixelRatio||1,2),W=0,H=0;
+  function resize(){W=cv.width=innerWidth*DPR;H=cv.height=innerHeight*DPR;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  resize();addEventListener('resize',resize);
+
+  var startO=document.getElementById('start'),endO=document.getElementById('end'),
+      timerEl=document.getElementById('timer'),hintEl=document.getElementById('hint'),strainEl=document.getElementById('strain');
+
+  function toBn(n){return String(n).replace(/[0-9]/g,function(d){return '০১২৩৪৫৬৭৮৯'[d];});}
+  function fmt(sec){var m=Math.floor(sec/60),s=Math.floor(sec%60);return toBn(m)+':'+toBn(s<10?'0'+s:s);}
+
+  // ---- state ----
+  var running=false,dead=false,t=0,life=1,grip=1,holding=false,wind=0,gustPhase=0,
+      embers=[],distant=[],lastHintShift=0,hintShown=false;
+
+  function initDistant(){
+    distant=[];var n=8;
+    for(var i=0;i<n;i++){distant.push({x:(0.1+0.8*Math.random()),y:(0.35+0.5*Math.random()),life:0.4+Math.random()*0.6,ph:Math.random()*6.28,out:false,respawn:Math.random()*20});}
+  }
+  initDistant();
+
+  function reset(){running=true;dead=false;t=0;life=1;grip=1;holding=false;wind=0;gustPhase=Math.random()*6;embers=[];hintShown=false;initDistant();timerEl.classList.add('on');}
+
+  function begin(){startO.classList.add('gone');endO.classList.add('gone');reset();showHint('চেপে ধরে রাখো');}
+  document.getElementById('begin').addEventListener('click',begin);
+  document.getElementById('again').addEventListener('click',begin);
+
+  var hintTimer;
+  function showHint(txt){hintEl.textContent=txt;hintEl.style.opacity='.85';clearTimeout(hintTimer);hintTimer=setTimeout(function(){hintEl.style.opacity='0';},2600);}
+
+  // ---- input ----
+  function down(e){if(!running)return;holding=true;if(e&&e.cancelable)e.preventDefault();}
+  function up(){holding=false;}
+  cv.addEventListener('pointerdown',down);
+  addEventListener('pointerup',up);
+  addEventListener('pointercancel',up);
+  addEventListener('keydown',function(e){if(e.code==='Space'||e.key===' '){e.preventDefault();if(startO.classList.contains('gone')&&!running&&!dead){} if(!running&&startO&&!startO.classList.contains('gone')){begin();return;} holding=true;}});
+  addEventListener('keyup',function(e){if(e.code==='Space'||e.key===' '){holding=false;}});
+  cv.addEventListener('contextmenu',function(e){e.preventDefault();});
+
+  function endGame(){
+    running=false;dead=true;holding=false;timerEl.classList.remove('on');strainEl.style.opacity='0';
+    var elapsed=t;
+    var best=0;try{best=parseFloat(localStorage.getItem('dukkho_hold_best')||'0')||0;}catch(_){}
+    var isBest=elapsed>best;
+    if(isBest){try{localStorage.setItem('dukkho_hold_best',String(elapsed));}catch(_){}}
+    var shelteredN=Math.max(3,Math.round(elapsed*(1.6+Math.random()*0.9)));
+    document.getElementById('e-time').textContent=fmt(elapsed);
+    var lines='';
+    lines+='<b>তুমি ধরে রেখেছিলে '+fmt(elapsed)+'</b><br>';
+    if(isBest&&best>0){lines+='তোমার নতুন সেরা।<br>';}
+    else if(best>0){lines+='তোমার সেরা ছিল '+fmt(best)+'<br>';}
+    lines+='বেশিরভাগ মানুষ ছেড়ে দেয় ১:৪৭-এ।<br>';
+    lines+='তোমার আগে <b>'+toBn(shelteredN)+' জন</b> হাল ছেড়েছে —<br>তাদের পতনই এতক্ষণ তোমাকে আড়াল করেছে।';
+    document.getElementById('e-lines').innerHTML=lines;
+    document.getElementById('e-gift').textContent='আর এখন তুমি ছেড়ে দিলে — কোথাও, একজন অচেনা মানুষের শিখা এক মুহূর্তের জন্য স্থির হলো।';
+    setTimeout(function(){endO.classList.remove('gone');},1400);
+  }
+
+  // ---- draw flame ----
+  function drawFlame(cx,cy,scale,lean,glow,shiver){
+    var s=scale;
+    // outer halo
+    var hg=ctx.createRadialGradient(cx,cy,0,cx,cy,190*s*DPR);
+    hg.addColorStop(0,'rgba(232,148,90,'+(0.22*glow)+')');
+    hg.addColorStop(0.4,'rgba(232,148,90,'+(0.06*glow)+')');
+    hg.addColorStop(1,'rgba(232,148,90,0)');
+    ctx.fillStyle=hg;ctx.beginPath();ctx.arc(cx,cy,190*s*DPR,0,6.2832);ctx.fill();
+    // flame layers (bent by lean)
+    var layers=[[46,'rgba(168,84,49,0.55)'],[30,'rgba(232,148,90,0.9)'],[18,'rgba(255,196,134,0.95)'],[9,'rgba(255,246,230,0.98)']];
+    for(var i=0;i<layers.length;i++){
+      var r=layers[i][0]*s*DPR;
+      var topShift=lean*(1-i*0.12);
+      var jx=(Math.random()-0.5)*shiver*DPR;
+      var gx=cx+topShift*0.6+jx, gy=cy-r*0.7;
+      var g=ctx.createRadialGradient(gx,gy-r*0.2,0,gx,gy,r);
+      g.addColorStop(0,layers[i][1]);
+      g.addColorStop(1,'rgba(168,84,49,0)');
+      ctx.save();ctx.translate(cx,cy);ctx.transform(1,0,lean*0.010,1,0,0);ctx.translate(-cx,-cy);
+      ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(gx,gy,r*0.7,r*1.25,0,0,6.2832);ctx.fill();ctx.restore();
+    }
+  }
+
+  // ---- loop ----
+  var prev=performance.now();
+  function frame(now){
+    var dt=Math.min((now-prev)/1000,0.05);prev=now;
+    ctx.clearRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+
+    // distant flames (simulated others holding, guttering out)
+    for(var i=0;i<distant.length;i++){
+      var d=distant[i];
+      if(d.out){d.respawn-=dt;if(d.respawn<=0){d.out=false;d.life=0.4+Math.random()*0.5;d.x=0.08+0.84*Math.random();d.y=0.32+0.52*Math.random();}continue;}
+      if(running){d.life-=dt*(0.006+t*0.0009);}
+      if(d.life<=0){d.out=true;d.respawn=6+Math.random()*22;continue;}
+      var dx=d.x*W,dy=d.y*H,tw=(0.6+0.4*Math.sin(now*0.003+d.ph))*d.life;
+      var dg=ctx.createRadialGradient(dx,dy,0,dx,dy,42*DPR);
+      dg.addColorStop(0,'rgba(232,148,90,'+(0.5*tw)+')');
+      dg.addColorStop(0.5,'rgba(232,148,90,'+(0.10*tw)+')');
+      dg.addColorStop(1,'rgba(232,148,90,0)');
+      ctx.fillStyle=dg;ctx.beginPath();ctx.arc(dx,dy,42*DPR,0,6.2832);ctx.fill();
+      ctx.fillStyle='rgba(255,220,170,'+(0.6*tw)+')';ctx.beginPath();ctx.arc(dx,dy-4*DPR,2.2*DPR,0,6.2832);ctx.fill();
+    }
+
+    if(running){
+      t+=dt;
+      // wind rises with time + gentle gusts
+      gustPhase+=dt;
+      var base=0.14+t*0.0075;
+      var gust=Math.max(0,Math.sin(gustPhase*0.7)*0.18+Math.sin(gustPhase*1.9+1)*0.10);
+      wind=base+gust;
+      // grip fatigue while holding; recover while released
+      if(holding){grip-=(0.055+t*0.0045)*dt;}else{grip+=0.6*dt;}
+      grip=Math.max(0,Math.min(1,grip));
+      var shield=holding?grip:0;
+      var net=shield-wind;
+      life+=net*0.4*dt;
+      life=Math.max(0,Math.min(1,life));
+      // strain feedback when holding with failing grip
+      var strain=holding?Math.max(0,(0.4-grip))*2.2:0;
+      strainEl.style.opacity=String(Math.min(0.9,strain));
+      // ember spawn, blown leeward
+      if(Math.random()<0.5){embers.push({x:innerWidth/2+(Math.random()-0.5)*14,y:innerHeight*0.56-30,vx:wind*40*(0.6+Math.random()),vy:-40-Math.random()*40,l:1});}
+      // timer + hints
+      timerEl.textContent=fmt(t);
+      if(!hintShown&&t>3){hintShown=true;}
+      if(holding&&grip<0.18&&now-lastHintShift>3500){lastHintShift=now;showHint('হাত ক্লান্ত — এক মুহূর্ত ছেড়ে আবার ধরো');}
+      if(life<=0){endGame();}
+    }
+
+    // embers
+    for(var j=embers.length-1;j>=0;j--){
+      var e=embers[j];e.x+=e.vx*0.016;e.y+=e.vy*0.016;e.vy+=30*0.016;e.l-=0.012;
+      if(e.l<=0){embers.splice(j,1);continue;}
+      ctx.fillStyle='rgba(232,148,90,'+(e.l*0.6)+')';ctx.beginPath();ctx.arc(e.x*DPR,e.y*DPR,1.6*DPR*e.l,0,6.2832);ctx.fill();
+    }
+
+    // central flame
+    var cx=W/2,cy=H*0.56;
+    var scale=0.5+life*0.9;
+    var lean=wind*120*(1-(holding?grip:0)*0.7)*DPR;
+    var glow=0.3+life*0.9;
+    var shiver=(1-life)*10+ (holding&&grip<0.25?8:0);
+    if(life>0.001||!dead) drawFlame(cx,cy,scale,lean,glow*(running||!dead?1:0.0),shiver);
+
+    // shield dome when holding
+    if(running&&holding&&grip>0.02){
+      ctx.globalCompositeOperation='screen';
+      var dr=150*DPR*(0.6+life*0.5);
+      var sg=ctx.createRadialGradient(cx,cy-20*DPR,dr*0.5,cx,cy-20*DPR,dr);
+      sg.addColorStop(0,'rgba(200,195,186,0)');
+      sg.addColorStop(0.82,'rgba(232,148,90,'+(0.05*grip)+')');
+      sg.addColorStop(1,'rgba(232,148,90,'+(0.16*grip)+')');
+      ctx.fillStyle=sg;ctx.beginPath();ctx.arc(cx,cy-20*DPR,dr,0,6.2832);ctx.fill();
+    }
+
+    ctx.globalCompositeOperation='source-over';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

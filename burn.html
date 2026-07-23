@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>পোড়াও — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cellipse cx='16' cy='18' rx='4' ry='7' fill='%23E8945A'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--ash-l:#3A3640;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;--latin:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{min-height:100%;background:radial-gradient(130% 100% at 50% 20%,#0d0b10,var(--void-deep) 80%);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  ::selection{background:rgba(232,148,90,.22);color:var(--moon)}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:40;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #ash-bank{position:fixed;left:0;right:0;bottom:0;z-index:1;pointer-events:none;height:0;background:linear-gradient(180deg,transparent,rgba(42,39,42,.5) 60%,rgba(58,54,64,.7));transition:height 2s var(--ease)}
+
+  .wrap{position:relative;z-index:5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem}
+  .screen{width:100%;max-width:680px;display:none;flex-direction:column;align-items:center;text-align:center;gap:1.6rem}
+  .screen.on{display:flex;animation:rise 1.4s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  .title{font-family:var(--serif);font-size:clamp(3rem,12vw,5.5rem);color:var(--moon);line-height:.95;text-shadow:0 0 50px rgba(232,148,90,.16)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.8;max-width:32ch}
+  .epi cite{display:block;margin-top:.8rem;font-style:normal;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--smoke-dim)}
+  .cta{font-family:var(--sans);font-weight:400;font-size:1rem;letter-spacing:.36em;color:var(--diya);padding:.85rem 2.4rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover:not(:disabled){border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.15);letter-spacing:.42em}
+  .cta:disabled{opacity:.28;cursor:not-allowed}
+  .note{font-size:.78rem;letter-spacing:.1em;color:var(--smoke-dim);max-width:34ch;line-height:1.9}
+  .instr{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.1rem,3.6vw,1.5rem);line-height:1.6}
+
+  textarea{width:100%;min-height:34vh;background:rgba(10,9,12,.4);border:1px solid var(--ash);border-radius:2px;color:var(--moon-soft);
+    font-family:var(--serif);font-size:clamp(1.15rem,3.6vw,1.5rem);line-height:1.9;padding:1.4rem 1.6rem;resize:vertical;outline:none;transition:border-color .8s}
+  textarea:focus{border-color:var(--diya-deep)}
+  textarea::placeholder{color:var(--smoke-dim);font-style:italic}
+
+  #paper{position:relative;font-family:var(--serif);font-size:clamp(1.2rem,3.8vw,1.7rem);line-height:2.05;color:var(--moon-soft);text-align:center;max-width:100%;padding:1rem .5rem}
+  .w{display:inline-block;cursor:pointer;padding:0 .05em;border-radius:2px;transition:color .5s,text-shadow .5s,transform 1s var(--ease),opacity 1s var(--ease),filter 1s var(--ease)}
+  #choose #paper .w:hover{color:var(--diya-bright);text-shadow:0 0 18px rgba(232,148,90,.45)}
+  .w.sel{color:var(--diya-bright);text-shadow:0 0 26px rgba(232,148,90,.7)}
+  .w.burning{color:var(--diya-bright);text-shadow:0 0 24px rgba(255,196,134,.9),0 0 8px rgba(255,120,40,.9)}
+  .w.ash{opacity:0;transform:translateY(-26px) scale(.9);filter:blur(6px);color:var(--diya-deep)}
+  .w.saved{color:var(--diya-bright);text-shadow:0 0 40px rgba(232,148,90,.8);transform:translateY(-30px) scale(1.15);opacity:1}
+  #fire{position:absolute;inset:-40px -20px;pointer-events:none;z-index:6;opacity:0}
+
+  .saved-word{font-family:var(--serif);font-size:clamp(2.6rem,11vw,4.5rem);color:var(--diya-bright);text-shadow:0 0 50px rgba(232,148,90,.6);line-height:1.1}
+  .row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.18em;color:var(--smoke);padding:.7rem 1.7rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+
+  .wall-title{font-family:var(--serif);color:var(--moon-soft);font-size:1.5rem}
+  #wall{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;justify-content:center;max-width:640px;margin-top:.4rem;max-height:34vh;overflow:hidden}
+  #wall span{font-family:var(--serif);color:var(--smoke);font-size:clamp(1rem,3vw,1.4rem);opacity:.5;animation:float 7s ease-in-out infinite}
+  #wall span.fresh{color:var(--diya);opacity:1;text-shadow:0 0 24px rgba(232,148,90,.5)}
+  @keyframes float{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:.62}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <div id="ash-bank"></div>
+
+  <div class="wrap">
+
+    <div class="screen on" id="intro">
+      <h1 class="title">পোড়াও</h1>
+      <p class="epi">“যা একবার পুড়ে যায়, তা আর ফেরে না।”<cite>দুঃখ</cite></p>
+      <button class="cta" id="to-write">শুরু করো</button>
+      <p class="note">তোমার লেখা কোথাও সংরক্ষণ করা হয় না। শুধু তুমি যে একটি শব্দ বেছে নেবে, সেটুকুই থেকে যাবে।</p>
+    </div>
+
+    <div class="screen" id="write">
+      <p class="instr">তোমার দুঃখ লেখো।</p>
+      <textarea id="ta" placeholder="যা ভার হয়ে আছে বুকে, লিখে ফেলো..." spellcheck="false"></textarea>
+      <button class="cta" id="to-choose" disabled>একটি শব্দ বেছে নাও →</button>
+    </div>
+
+    <div class="screen" id="choose">
+      <p class="instr">একটিমাত্র শব্দ বেছে নাও — যেটা আগুনে বাঁচবে।</p>
+      <div id="paper"></div>
+      <button class="cta" id="ignite" disabled>পুড়িয়ে দাও</button>
+      <p class="note">বাকি সব ছাই হয়ে ঝরে পড়বে — চিরতরে।</p>
+    </div>
+
+    <div class="screen" id="after">
+      <p class="note" style="letter-spacing:.24em;text-transform:uppercase">তুমি বাঁচিয়ে রাখলে</p>
+      <div class="saved-word" id="saved-word">—</div>
+      <p class="epi" id="after-line">বাকি সব ছাই। এই একটি শব্দ দেয়ালে থেকে গেল।</p>
+      <div class="row">
+        <button class="btn2" id="again">আবার পোড়াও</button>
+        <button class="btn2" id="see-wall">দেয়াল দেখো</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+    </div>
+
+    <div class="screen" id="wallscreen">
+      <p class="wall-title">দেয়াল</p>
+      <p class="note">অচেনা মানুষেরা আগুন থেকে যে শব্দগুলো বাঁচিয়েছে।</p>
+      <div id="wall"></div>
+      <div class="row">
+        <button class="btn2" id="wall-again">আবার পোড়াও</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+      <p class="note" style="margin-top:1rem">পূর্বরূপে বিনামূল্যে · ভবিষ্যতে একটি শব্দ বাঁচাতে ১০ টাকা (বিকাশ)</p>
+    </div>
+
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  var screens={intro:$('intro'),write:$('write'),choose:$('choose'),after:$('after'),wall:$('wallscreen')};
+  function show(name){for(var k in screens){screens[k].classList.toggle('on',k===name);}window.scrollTo(0,0);}
+
+  var ta=$('ta'),paper=$('paper'),igniteBtn=$('ignite'),selIndex=-1,words=[];
+
+  $('to-write').addEventListener('click',function(){show('write');setTimeout(function(){ta.focus();},300);});
+  ta.addEventListener('input',function(){$('to-choose').disabled=ta.value.trim().length===0;});
+  $('to-choose').addEventListener('click',buildChoose);
+
+  function buildChoose(){
+    var raw=ta.value.replace(/\r/g,'');
+    paper.innerHTML='';words=[];selIndex=-1;igniteBtn.disabled=true;
+    var tokens=raw.split(/(\s+)/);
+    tokens.forEach(function(tok){
+      if(tok===''){return;}
+      if(/^\s+$/.test(tok)){
+        if(tok.indexOf('\n')>=0){paper.appendChild(document.createElement('br'));}
+        else{paper.appendChild(document.createTextNode(' '));}
+        return;
+      }
+      var s=document.createElement('span');s.className='w';s.textContent=tok;
+      var idx=words.length;
+      s.addEventListener('click',function(){selectWord(idx);});
+      paper.appendChild(s);words.push(s);
+    });
+    // add a live fire canvas overlay
+    var fc=document.createElement('canvas');fc.id='fire';paper.appendChild(fc);
+    show('choose');
+  }
+
+  function selectWord(idx){
+    if(selIndex>=0&&words[selIndex]){words[selIndex].classList.remove('sel');}
+    selIndex=idx;words[idx].classList.add('sel');igniteBtn.disabled=false;
+  }
+
+  igniteBtn.addEventListener('click',burn);
+
+  function burn(){
+    igniteBtn.disabled=true;
+    var savedWord=words[selIndex]?words[selIndex].textContent:'';
+    // schedule each word to burn, bottom-to-top
+    var tops=words.map(function(w){return w.offsetTop;});
+    var maxTop=Math.max.apply(null,tops),minTop=Math.min.apply(null,tops);
+    var span=Math.max(1,maxTop-minTop);
+    var maxDelay=0;
+    words.forEach(function(w,i){
+      if(i===selIndex)return;
+      var d=((maxTop-w.offsetTop)/span)*1400 + (w.offsetLeft*0.25) + Math.random()*260;
+      maxDelay=Math.max(maxDelay,d);
+      setTimeout(function(){w.classList.add('burning');},d);
+      setTimeout(function(){w.classList.remove('burning');w.classList.add('ash');},d+380);
+    });
+    // saved word rises near the end
+    var savD=maxDelay*0.6;
+    setTimeout(function(){if(words[selIndex]){words[selIndex].classList.add('saved');}},savD);
+    runFire(maxDelay+900);
+    // accumulate ash
+    var ash=0;try{ash=parseInt(localStorage.getItem('dukkho_burn_ash')||'0',10)||0;}catch(_){}
+    ash+=1;try{localStorage.setItem('dukkho_burn_ash',String(ash));}catch(_){}
+    setAshBank(ash);
+    // save the one word (never the full text)
+    if(savedWord){saveToWall(savedWord);}
+    // to aftermath
+    setTimeout(function(){
+      $('saved-word').textContent=savedWord||'—';
+      show('after');
+    },maxDelay+1500);
+  }
+
+  function runFire(dur){
+    var fc=$('fire');if(!fc||!fc.getContext)return;
+    var ctx=fc.getContext('2d');if(!ctx)return;
+    var DPR=Math.min(window.devicePixelRatio||1,2);
+    function size(){fc.width=paper.clientWidth*DPR;fc.height=(paper.clientHeight+80)*DPR;fc.style.width=paper.clientWidth+'px';fc.style.height=(paper.clientHeight+80)+'px';}
+    size();
+    fc.style.opacity='1';
+    var parts=[],start=performance.now();
+    function loop(now){
+      var el=now-start,k=Math.min(1,el/dur);
+      ctx.clearRect(0,0,fc.width,fc.height);
+      ctx.globalCompositeOperation='lighter';
+      // rising flame front intensity
+      var intensity=Math.sin(k*Math.PI); // rise then fall
+      var front=fc.height*(1-k*1.1);
+      // spawn embers near the front
+      var spawn=Math.round(intensity*6);
+      for(var s=0;s<spawn;s++){
+        parts.push({x:Math.random()*fc.width,y:front+ (Math.random()-0.3)*60*DPR,vx:(Math.random()-0.5)*20,vy:-40-Math.random()*70,l:1,r:(Math.random()*2+0.6)*DPR});
+      }
+      for(var i=parts.length-1;i>=0;i--){
+        var p=parts[i];p.x+=p.vx*0.016;p.y+=p.vy*0.016;p.vy+=26*0.016;p.l-=0.012;
+        if(p.l<=0){parts.splice(i,1);continue;}
+        ctx.fillStyle='rgba('+(255)+','+(150+Math.round(80*p.l))+','+(60)+','+(p.l*0.7)+')';
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.l,0,6.2832);ctx.fill();
+        ctx.fillStyle='rgba(232,148,90,'+(p.l*0.12)+')';
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r*4*p.l,0,6.2832);ctx.fill();
+      }
+      // glow band at the front
+      if(intensity>0.02){
+        var g=ctx.createLinearGradient(0,front-70*DPR,0,front+40*DPR);
+        g.addColorStop(0,'rgba(232,148,90,0)');
+        g.addColorStop(0.6,'rgba(232,120,50,'+(0.10*intensity)+')');
+        g.addColorStop(1,'rgba(255,180,110,0)');
+        ctx.fillStyle=g;ctx.fillRect(0,front-70*DPR,fc.width,120*DPR);
+      }
+      if(el<dur){requestAnimationFrame(loop);}
+      else{fc.style.transition='opacity 1.2s';fc.style.opacity='0';}
+    }
+    requestAnimationFrame(loop);
+  }
+
+  function setAshBank(count){
+    var h=Math.min(120,18+count*6);
+    $('ash-bank').style.height=h+'px';
+  }
+
+  // ---- wall (localStorage) ----
+  function getWall(){try{return JSON.parse(localStorage.getItem('dukkho_burn_wall')||'[]');}catch(_){return [];}}
+  function saveToWall(word){
+    var wall=getWall();wall.push({w:word,t:Date.now()});
+    if(wall.length>200)wall=wall.slice(-200);
+    try{localStorage.setItem('dukkho_burn_wall',JSON.stringify(wall));}catch(_){}
+  }
+  function seedWall(){
+    // a few resident words so the wall never feels empty in preview
+    if(getWall().length===0){
+      var seed=['মা','ঘর','তুমি','ফিরে','একা','বৃষ্টি','ক্ষমা','রয়ে গেল','ভুল','শেষ'];
+      var arr=seed.map(function(w,i){return {w:w,t:Date.now()-(seed.length-i)*86400000};});
+      try{localStorage.setItem('dukkho_burn_wall',JSON.stringify(arr));}catch(_){}
+    }
+  }
+  function renderWall(freshWord){
+    var wall=getWall().slice().reverse();var el=$('wall');el.innerHTML='';
+    wall.slice(0,60).forEach(function(item,i){
+      var s=document.createElement('span');s.textContent=item.w;
+      s.style.animationDelay=(Math.random()*5).toFixed(2)+'s';
+      if(freshWord&&item.w===freshWord&&i===0){s.className='fresh';}
+      el.appendChild(s);
+    });
+  }
+
+  $('see-wall').addEventListener('click',function(){renderWall($('saved-word').textContent);show('wall');});
+  function restart(){ta.value='';$('to-choose').disabled=true;paper.innerHTML='';selIndex=-1;show('write');setTimeout(function(){ta.focus();},300);}
+  $('again').addEventListener('click',restart);
+  $('wall-again').addEventListener('click',restart);
+
+  // init
+  seedWall();
+  try{setAshBank(parseInt(localStorage.getItem('dukkho_burn_ash')||'0',10)||0);}catch(_){}
+})();
+</script>
+</body>
+</html>

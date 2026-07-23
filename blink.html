@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>চোখের পলকে — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cellipse cx='16' cy='16' rx='9' ry='5' fill='none' stroke='%23E8945A' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23E8945A'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&family=Cormorant+Garamond:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;--latin:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--void);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:30;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #video{position:fixed;width:2px;height:2px;opacity:0;pointer-events:none;top:-10px}
+
+  #stage{position:fixed;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+  #stage.on{display:flex}
+  .year{font-family:var(--latin);font-size:clamp(1rem,3vw,1.3rem);letter-spacing:.32em;color:var(--diya-deep);margin-bottom:1.6rem;transition:color .6s}
+  #tableau{font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.7rem,5.6vw,3rem);line-height:1.5;max-width:20ch;min-height:2.4em;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  #tableau.flip{opacity:0;transform:translateY(10px)}
+  #strainv{position:fixed;inset:0;z-index:6;pointer-events:none;opacity:0;background:radial-gradient(120% 100% at 50% 50%,transparent 30%,rgba(7,6,9,.9) 95%);transition:opacity .3s}
+  #eye{position:fixed;bottom:1.6rem;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:.6rem;color:var(--smoke-dim);font-size:.74rem;letter-spacing:.18em}
+  #eye .dot{width:9px;height:9px;border-radius:50%;background:var(--smoke-dim);transition:background .12s,box-shadow .12s}
+  #eye .dot.blink{background:var(--diya-bright);box-shadow:0 0 14px rgba(255,196,134,.9)}
+  #whisper{position:fixed;left:50%;top:16%;transform:translateX(-50%);z-index:20;font-family:var(--serif);font-style:italic;color:var(--smoke-dim);font-size:1rem;opacity:0;transition:opacity .6s;text-align:center;max-width:80vw}
+
+  .overlay{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 46%,#0d0b10,var(--void-deep) 78%);transition:opacity 1.6s var(--ease),visibility 1.6s}
+  .overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .overlay .in{max-width:620px;display:flex;flex-direction:column;align-items:center;gap:1.5rem;animation:rise 1.8s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(2.6rem,10vw,4.6rem);color:var(--moon);line-height:1;text-shadow:0 0 50px rgba(232,148,90,.16)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.8;max-width:34ch}
+  .epi cite{display:block;margin-top:.8rem;font-style:normal;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--smoke-dim)}
+  .note{font-size:.82rem;letter-spacing:.05em;color:var(--smoke-dim);max-width:36ch;line-height:1.9}
+  .privacy{display:flex;align-items:center;gap:.5rem;color:var(--moon-soft);font-size:.85rem;border:1px solid var(--ash);border-radius:2px;padding:.7rem 1.1rem}
+  .row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
+  .cta{font-family:var(--sans);font-weight:400;font-size:.98rem;letter-spacing:.28em;color:var(--diya);padding:.85rem 2rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover{border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.15)}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.18em;color:var(--smoke);padding:.75rem 1.7rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+  #end .big{font-family:var(--serif);color:var(--diya);font-size:clamp(2rem,7vw,3.2rem);line-height:1.2;text-shadow:0 0 40px rgba(232,148,90,.2)}
+  #end .last{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.1rem,3.4vw,1.4rem);max-width:26ch;line-height:1.6}
+  #loading{font-size:.85rem;color:var(--smoke-dim);letter-spacing:.1em}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <video id="video" playsinline muted></video>
+
+  <div id="stage">
+    <div class="year" id="year">বছর ০</div>
+    <div id="tableau"></div>
+  </div>
+  <div id="strainv"></div>
+  <div id="whisper"></div>
+  <div id="eye" style="opacity:0"><span class="dot" id="dot"></span><span id="eye-label">পলক</span></div>
+
+  <!-- INTRO -->
+  <div class="overlay" id="intro">
+    <div class="in">
+      <h1 class="title">চোখের পলকে</h1>
+      <p class="epi">“প্রতিটি পলকে একটি বছর চলে যায়।”<cite>দুঃখ</cite></p>
+      <p class="note">একটি গোটা জীবন কেটে যাবে তোমার সামনে। যতবার তুমি চোখের পাতা ফেলবে, ততবার সে এক বছর করে বাঁচবে। চোখ বন্ধ করতে ভুলে গেলে — সে অল্প বয়সেই চলে যাবে। বাঁচিয়ে রাখতে হলে, বারবার ছেড়ে দিতে হবে।</p>
+      <div class="privacy"><span>🔒</span><span>কোনো ছবি কোথাও পাঠানো হয় না। সব কিছু শুধু তোমার যন্ত্রেই থাকে।</span></div>
+      <div class="row">
+        <button class="cta" id="start-cam">ক্যামেরা দিয়ে শুরু করো</button>
+        <button class="btn2" id="start-space">ক্যামেরা ছাড়াই (স্পেসবার)</button>
+      </div>
+      <p id="loading"></p>
+    </div>
+  </div>
+
+  <!-- END -->
+  <div class="overlay gone" id="end">
+    <div class="in">
+      <p class="epi" id="end-cause" style="margin:0"></p>
+      <p class="big" id="end-big"></p>
+      <p class="last" id="end-last"></p>
+      <div class="row">
+        <button class="btn2" id="again">আবার দেখো</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+  const $=(id)=>document.getElementById(id);
+  const toBn=(n)=>String(n).replace(/[0-9]/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+
+  // ---- life tableaux ----
+  function lineForYear(y,maxLife){
+    const specials={
+      0:'জন্ম। প্রথম আলো, প্রথম কান্না।',
+      5:'স্কুলের প্রথম দিন। মায়ের আঁচল ছেড়ে যাওয়া।',
+      12:'বৃষ্টিতে ভেজা এক দুপুর, কোনো কারণ ছাড়াই।',
+      19:'প্রথম প্রেম। পৃথিবীটা হঠাৎ বড় হয়ে গেল।',
+      23:'ঘর ছেড়ে শহরে। একলা একটা ঘর।',
+      29:'একটা হাত ধরল, সারাজীবনের জন্য বলে মনে হলো।',
+      34:'এই বছর কেউ একজন চিরতরে চলে গেল।',
+      41:'আয়নায় বাবার মুখ দেখতে পেল।',
+      50:'সন্তানেরা একে একে দূরে চলে গেল।',
+      58:'পুরোনো বন্ধুদের সংখ্যা কমে আসছে।',
+      67:'হাঁটার গতি ধীর। শীত একটু বেশি লাগে।',
+      75:'জানালার পাশে বসে থাকা দীর্ঘ বিকেল।'
+    };
+    if(specials[y])return specials[y];
+    if(y<5)return 'ছোট্ট হাত, ছোট্ট পৃথিবী। সব কিছুই নতুন।';
+    if(y<12)return 'দৌড়, হাসি, হাঁটু-ভাঙা বিকেল।';
+    if(y<19)return 'বড় হওয়ার তাড়া। নিজেকে খোঁজা।';
+    if(y<28)return 'স্বপ্ন আর ভয়, পাশাপাশি হাঁটে।';
+    if(y<40)return 'দিন গড়িয়ে যায় কাজে, দায়িত্বে, নীরবে।';
+    if(y<55)return 'জীবন থিতু হয়ে এসেছে। অভ্যাস, ক্লান্তি, মায়া।';
+    if(y<68)return 'ফিরে দেখার বয়স। কত কিছু রয়ে গেল অসমাপ্ত।';
+    if(y<maxLife-2)return 'ধীর, শান্ত দিন। ছায়া দীর্ঘ হয়ে আসে।';
+    return 'শেষ শীত। জানালার আলো ম্লান।';
+  }
+
+  // ---- state ----
+  let playing=false, years=0, maxLife=74+Math.floor(Math.random()*19), lastBlink=0, eyesClosed=false, faceLandmarker=null, rafId=0, video=$('video'), stream=null, mode=null;
+  const STRAIN_MS=7000;
+
+  function setTableau(){
+    const tb=$('tableau'); tb.classList.add('flip');
+    setTimeout(()=>{ $('year').textContent='বছর '+toBn(years); tb.textContent=lineForYear(years,maxLife); tb.classList.remove('flip'); },260);
+  }
+  function flashDot(){ const d=$('dot'); d.classList.add('blink'); setTimeout(()=>d.classList.remove('blink'),150); }
+
+  function onBlink(){
+    if(!playing)return;
+    lastBlink=performance.now(); flashDot();
+    years++;
+    if(years>=maxLife){ end(false); return; }
+    setTableau();
+  }
+
+  function startLife(){
+    playing=true; years=0; lastBlink=performance.now(); eyesClosed=false;
+    $('intro').classList.add('gone'); $('end').classList.add('gone'); $('stage').classList.add('on'); $('eye').style.opacity='.7';
+    $('year').textContent='বছর ০'; $('tableau').textContent=lineForYear(0,maxLife);
+    requestAnimationFrame(strainLoop);
+  }
+
+  function strainLoop(now){
+    if(!playing)return;
+    const since=now-lastBlink;
+    const k=Math.max(0,Math.min(1,(since-2500)/(STRAIN_MS-2500)));
+    $('strainv').style.opacity=String(k*0.92);
+    const w=$('whisper');
+    if(k>0.25){ w.textContent = k>0.7?'সে নিভে যাচ্ছে — চোখ বন্ধ করো।':'শ্বাস নাও। চোখের পাতা ফেলো।'; w.style.opacity='.8'; }
+    else { w.style.opacity='0'; }
+    if(since>=STRAIN_MS){ end(true); return; }
+    rafId=requestAnimationFrame(strainLoop);
+  }
+
+  function end(early){
+    playing=false; cancelAnimationFrame(rafId);
+    $('strainv').style.opacity='0'; $('whisper').style.opacity='0'; $('eye').style.opacity='0'; $('stage').classList.remove('on');
+    stopCam();
+    $('end-cause').textContent = early ? 'তুমি ধরে রাখতে চেয়েছিলে। আর সেটাই তাকে থামিয়ে দিল।' : 'তুমি তাকে পুরো একটা জীবন দিলে।';
+    $('end-big').innerHTML = 'তুমি '+toBn(years)+' বার চোখের পলক ফেলেছ।<br>তুমি তাকে '+toBn(years)+' বছর দিয়েছ।';
+    $('end-last').textContent = '“'+lineForYear(years>0?years-1:0,maxLife)+'” — এইখানে তুমি থেমেছিলে।';
+    setTimeout(()=>$('end').classList.remove('gone'),600);
+  }
+
+  // ---- spacebar mode ----
+  window.addEventListener('keydown',(e)=>{
+    if(e.code==='Space'||e.key===' '){
+      e.preventDefault();
+      if(!playing && !$('intro').classList.contains('gone')){ mode='space'; startLife(); return; }
+      if(playing && mode==='space'){ onBlink(); }
+      else if(playing){ /* camera mode: space also counts as manual blink */ onBlink(); }
+    }
+  });
+  $('start-space').addEventListener('click',()=>{ mode='space'; $('eye-label').textContent='স্পেসবার চাপো'; startLife(); });
+  $('again').addEventListener('click',()=>{ maxLife=74+Math.floor(Math.random()*19); if(mode==='cam'){startCam();} else {startLife();} });
+
+  // ---- camera + MediaPipe ----
+  async function startCam(){
+    $('loading').textContent='ক্যামেরা প্রস্তুত হচ্ছে…';
+    try{
+      stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:'user'},audio:false});
+      video.srcObject=stream; await video.play();
+    }catch(err){
+      $('loading').textContent='ক্যামেরা খোলা গেল না। স্পেসবার দিয়ে চেষ্টা করো।';
+      return;
+    }
+    if(!faceLandmarker){
+      $('loading').textContent='মডেল নামছে… (প্রথমবার একটু সময় লাগে)';
+      try{
+        const vision=await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs');
+        const {FaceLandmarker,FilesetResolver}=vision;
+        const resolver=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
+        faceLandmarker=await FaceLandmarker.createFromOptions(resolver,{
+          baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',delegate:'GPU'},
+          outputFaceBlendshapes:true, runningMode:'VIDEO', numFaces:1
+        });
+      }catch(err){
+        $('loading').textContent='মডেল নামানো গেল না। স্পেসবার দিয়ে চালিয়ে যাও।';
+        stopCam(); return;
+      }
+    }
+    mode='cam'; $('eye-label').textContent='পলক'; $('loading').textContent=''; startLife(); detectLoop();
+  }
+  function detectLoop(){
+    if(!playing||mode!=='cam'||!faceLandmarker){ return; }
+    let ts=performance.now();
+    try{
+      const res=faceLandmarker.detectForVideo(video,ts);
+      if(res && res.faceBlendshapes && res.faceBlendshapes.length){
+        const cats=res.faceBlendshapes[0].categories;
+        let bl=0,br=0;
+        for(const c of cats){ if(c.categoryName==='eyeBlinkLeft')bl=c.score; else if(c.categoryName==='eyeBlinkRight')br=c.score; }
+        const closedNow = bl>0.5 && br>0.5;
+        if(closedNow && !eyesClosed){ eyesClosed=true; onBlink(); }
+        else if(!closedNow && bl<0.35 && br<0.35){ eyesClosed=false; }
+      }
+    }catch(_){}
+    if(playing&&mode==='cam') requestAnimationFrame(detectLoop);
+  }
+  function stopCam(){ if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; } }
+  $('start-cam').addEventListener('click',startCam);
+
+  window.addEventListener('pagehide',stopCam);
+</script>
+</body>
+</html>

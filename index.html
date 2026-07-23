@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>দুঃখ — বিষণ্ণতার এক জাদুঘর</title>
+<meta name="description" content="দুঃখ — বিষণ্ণতার এক জাদুঘর। A pitch-black museum of melancholy. Five exhibits about grief, stubborn love, and loss. In Bangla." />
+<meta name="theme-color" content="#0B0A0E" />
+<meta property="og:title" content="দুঃখ — বিষণ্ণতার এক জাদুঘর" />
+<meta property="og:description" content="পাঁচটি ঘর। পাঁচটি ছোট মৃত্যু। A museum of melancholy, for the lovers of sadness." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cellipse cx='16' cy='18' rx='4' ry='7' fill='%23E8945A'/%3E%3Cellipse cx='16' cy='19' rx='2' ry='4' fill='%23FFD9A0'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;
+    --void-deep:#070609;
+    --cold:#101522;
+    --ash:#26232A;
+    --ash-light:#3A3640;
+    --smoke:#8A8390;
+    --smoke-dim:#5C5866;
+    --moon:#E8E3DA;
+    --moon-soft:#C9C3BA;
+    --diya:#E8945A;
+    --diya-bright:#FFC486;
+    --diya-deep:#A85431;
+    --ember:#6E2E1C;
+    --serif:'Tiro Bangla', 'Noto Serif Bengali', serif;
+    --sans:'Hind Siliguri', system-ui, sans-serif;
+    --latin:'Cormorant Garamond', Georgia, serif;
+    --ease:cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--sans);
+    background:var(--void);
+    color:var(--smoke);
+    line-height:1.9;
+    font-weight:300;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body.locked{overflow:hidden;height:100vh}
+
+  ::selection{background:rgba(232,148,90,0.22);color:var(--moon)}
+
+  /* ---------- atmospheric layers ---------- */
+  #bg-field{position:fixed;inset:0;z-index:0;pointer-events:none}
+  #ember-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.9}
+  #vignette{
+    position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% 8%, rgba(232,148,90,0.05), transparent 42%),
+      radial-gradient(140% 120% at 50% 50%, transparent 45%, rgba(7,6,9,0.55) 82%, rgba(7,6,9,0.9) 100%),
+      linear-gradient(180deg, rgba(16,21,34,0.18), transparent 30%, transparent 70%, rgba(7,6,9,0.4));
+  }
+  #grain{
+    position:fixed;inset:-50%;z-index:3;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 6s steps(6) infinite;
+  }
+  @keyframes grain{
+    0%,100%{transform:translate(0,0)}
+    16%{transform:translate(-4%,3%)}
+    33%{transform:translate(3%,-4%)}
+    50%{transform:translate(-3%,4%)}
+    66%{transform:translate(4%,-3%)}
+    83%{transform:translate(-2%,-2%)}
+  }
+  #candle{
+    position:fixed;top:0;left:0;z-index:4;width:520px;height:520px;
+    margin:-260px 0 0 -260px;pointer-events:none;
+    background:radial-gradient(circle, rgba(232,148,90,0.14), rgba(232,148,90,0.05) 35%, transparent 62%);
+    mix-blend-mode:screen;opacity:0;transition:opacity 1.4s var(--ease);will-change:transform;
+  }
+
+  /* ---------- the flame ---------- */
+  .flame{position:relative;width:26px;height:70px;margin:0 auto}
+  .flame .halo{
+    position:absolute;left:50%;top:44%;width:150px;height:150px;transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(232,148,90,0.32), rgba(232,148,90,0.08) 40%, transparent 65%);
+    border-radius:50%;filter:blur(4px);animation:breathe 4.5s ease-in-out infinite;
+  }
+  .flame .body{
+    position:absolute;left:50%;bottom:8px;width:22px;height:44px;transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 78%, #FFE7C4 0%, var(--diya-bright) 22%, var(--diya) 44%, var(--diya-deep) 72%, rgba(110,46,28,0) 100%);
+    border-radius:50% 50% 46% 46% / 66% 66% 40% 40%;
+    filter:blur(1.4px);transform-origin:50% 92%;
+    animation:flicker 3.1s ease-in-out infinite;
+  }
+  .flame .core{
+    position:absolute;left:50%;bottom:14px;width:8px;height:20px;transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 70%, #FFF6E6, #FFD9A0 55%, rgba(255,196,134,0) 100%);
+    border-radius:50% 50% 45% 45% / 60% 60% 40% 40%;filter:blur(.6px);
+    animation:flicker 2.3s ease-in-out infinite reverse;
+  }
+  .flame .wick{position:absolute;left:50%;bottom:2px;width:2px;height:10px;transform:translateX(-50%);background:linear-gradient(var(--ash-light),#12100f)}
+  @keyframes flicker{
+    0%,100%{transform:translateX(-50%) scaleY(1) scaleX(1) skewX(0deg);opacity:.94}
+    20%{transform:translateX(-51%) scaleY(1.07) scaleX(.96) skewX(2deg);opacity:1}
+    40%{transform:translateX(-49%) scaleY(.95) scaleX(1.03) skewX(-1.5deg);opacity:.88}
+    60%{transform:translateX(-50%) scaleY(1.04) scaleX(.98) skewX(1deg);opacity:.97}
+    80%{transform:translateX(-50.5%) scaleY(.98) scaleX(1.01) skewX(-.5deg);opacity:.92}
+  }
+  @keyframes breathe{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.09)}}
+
+  /* ---------- threshold ---------- */
+  #threshold{
+    position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 46%, #0d0b10, var(--void-deep) 70%);
+    transition:opacity 2.2s var(--ease), visibility 2.2s;
+  }
+  #threshold.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .th-in{max-width:640px;display:flex;flex-direction:column;align-items:center;gap:2rem;animation:rise 2.6s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  #threshold .title{
+    font-family:var(--serif);font-size:clamp(4.5rem,17vw,9rem);color:var(--moon);line-height:.9;
+    letter-spacing:.01em;text-shadow:0 0 60px rgba(232,148,90,0.18);
+  }
+  #threshold .sub{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.05rem,3.4vw,1.4rem);letter-spacing:.04em}
+  #threshold .quote{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1rem,3vw,1.2rem);line-height:1.8;max-width:30ch}
+  #threshold .quote cite{display:block;margin-top:.9rem;font-style:normal;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--smoke-dim)}
+  .enter{margin-top:.5rem;display:flex;flex-direction:column;align-items:center;gap:.7rem;cursor:pointer;background:none;border:none;color:inherit;font-family:inherit}
+  .enter .word{
+    font-family:var(--sans);font-weight:400;font-size:1.05rem;letter-spacing:.42em;color:var(--diya);
+    padding:.85rem 2.6rem .85rem 3.02rem;border:1px solid rgba(232,148,90,0.32);border-radius:1px;
+    transition:all 1s var(--ease);position:relative;
+  }
+  .enter:hover .word{border-color:rgba(232,148,90,0.7);color:var(--diya-bright);box-shadow:0 0 44px rgba(232,148,90,0.16), inset 0 0 30px rgba(232,148,90,0.05);letter-spacing:.5em}
+  .enter .hint{font-size:.72rem;letter-spacing:.18em;color:var(--smoke-dim);text-transform:none;max-width:26ch}
+
+  /* ---------- shell / reveal ---------- */
+  main{position:relative;z-index:10;opacity:0;transition:opacity 2s var(--ease) .3s}
+  main.shown{opacity:1}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.8s var(--ease), transform 1.8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  section{padding:clamp(6rem,16vh,12rem) 1.6rem;max-width:1080px;margin:0 auto;position:relative}
+  .kicker{font-family:var(--sans);font-weight:400;font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--diya-deep);margin-bottom:2.2rem}
+  .matra{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--ash) 12%,var(--ash) 88%,transparent);margin:0}
+
+  /* wordmark */
+  #mark{
+    position:fixed;top:1.5rem;left:1.9rem;z-index:40;font-family:var(--serif);font-size:1.5rem;color:var(--moon-soft);
+    letter-spacing:.02em;opacity:0;transition:opacity 1.6s var(--ease) 1s;text-decoration:none;
+  }
+  #mark.shown{opacity:.85}
+  #mark:hover{color:var(--diya)}
+
+  /* manifesto */
+  .manifesto{text-align:center;padding-top:clamp(8rem,26vh,16rem)}
+  .thesis{font-family:var(--serif);color:var(--moon);font-size:clamp(1.9rem,6.2vw,3.9rem);line-height:1.32;letter-spacing:.005em}
+  .thesis .em{color:var(--diya);font-style:italic}
+  .manifesto .lede{margin-top:2.6rem;font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3vw,1.35rem)}
+  .scroll-cue{margin-top:5rem;display:inline-flex;flex-direction:column;align-items:center;gap:.8rem;color:var(--smoke-dim);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase}
+  .scroll-cue .line{width:1px;height:52px;background:linear-gradient(var(--diya-deep),transparent);animation:drip 3.4s ease-in-out infinite}
+  @keyframes drip{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* exhibits */
+  .ex-head{text-align:center;margin-bottom:1rem}
+  .ex-head h2{font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.4rem,4vw,2rem);font-weight:400}
+  .doors{display:flex;flex-direction:column;gap:0}
+  .door{
+    display:block;text-decoration:none;color:inherit;position:relative;
+    padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3.4rem);
+    border-top:1px solid var(--ash);transition:background 1.3s var(--ease);overflow:hidden;
+  }
+  .door:last-child{border-bottom:1px solid var(--ash)}
+  .door::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.3s var(--ease);
+    background:radial-gradient(90% 130% at var(--px,15%) 50%, rgba(232,148,90,0.10), transparent 60%);
+  }
+  .door:hover::before,.door:focus-visible::before{opacity:1}
+  .door:focus-visible{outline:none}
+  .door-row{display:flex;align-items:baseline;gap:clamp(1rem,4vw,2.6rem);flex-wrap:wrap}
+  .door .num{font-family:var(--latin);font-size:clamp(1.1rem,3vw,1.4rem);color:var(--diya-deep);letter-spacing:.1em;transition:color 1s var(--ease);min-width:2.4ch}
+  .door:hover .num{color:var(--diya)}
+  .door .name{font-family:var(--serif);color:var(--moon);font-size:clamp(2.2rem,8vw,4.2rem);line-height:1.05;transition:text-shadow 1.2s var(--ease)}
+  .door:hover .name{text-shadow:0 0 46px rgba(232,148,90,0.22)}
+  .door .body{margin-top:1.5rem;max-width:52ch;padding-left:calc(2.4ch + clamp(1rem,4vw,2.6rem))}
+  .door .epi{font-family:var(--serif);font-style:italic;color:var(--diya);opacity:.82;font-size:clamp(1.05rem,3vw,1.3rem);margin-bottom:1rem}
+  .door .desc{color:var(--smoke);font-size:clamp(.98rem,2.4vw,1.08rem);font-weight:300}
+  .door .foot{margin-top:1.8rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+  .door .go{font-size:.82rem;letter-spacing:.26em;text-transform:uppercase;color:var(--smoke-dim);transition:color 1s var(--ease),transform 1s var(--ease)}
+  .door:hover .go{color:var(--diya);transform:translateX(6px)}
+  .door .tag{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--smoke-dim);border:1px solid var(--ash);border-radius:1px;padding:.35rem .8rem}
+  .door .whisper{
+    margin-top:1.2rem;padding-left:calc(2.4ch + clamp(1rem,4vw,2.6rem));font-family:var(--serif);font-style:italic;
+    color:var(--smoke-dim);font-size:.98rem;max-height:0;opacity:0;overflow:hidden;transition:all 1.1s var(--ease)
+  }
+  .door.open-whisper .whisper{max-height:5rem;opacity:1;margin-bottom:.4rem}
+
+  /* interlude */
+  .interlude{text-align:center;padding:clamp(8rem,22vh,14rem) 1.6rem}
+  .interlude blockquote{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.4rem,4.4vw,2.3rem);line-height:1.75;max-width:22ch;margin:0 auto}
+  .interlude cite{display:block;margin-top:2rem;font-style:normal;font-family:var(--sans);font-weight:400;font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;color:var(--smoke-dim)}
+
+  /* graveyard */
+  .graveyard{text-align:center;position:relative}
+  #grave-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7}
+  .graveyard h2{font-family:var(--serif);color:var(--moon);font-size:clamp(1.8rem,5.5vw,3.1rem);font-weight:400;margin-bottom:1.6rem;line-height:1.3}
+  .graveyard p{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3vw,1.3rem);max-width:34ch;margin:0 auto}
+
+  /* colophon */
+  .colophon{text-align:center;padding-bottom:clamp(5rem,12vh,8rem)}
+  .colophon .final-quote{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.15rem,3.4vw,1.7rem);line-height:1.85;max-width:30ch;margin:0 auto}
+  .colophon .final-quote cite{display:block;margin-top:1.6rem;font-style:normal;font-family:var(--sans);font-weight:400;font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--smoke-dim)}
+  .benediction{margin-top:clamp(5rem,14vh,9rem)}
+  .benediction .big{font-family:var(--serif);color:var(--moon);font-size:clamp(2.4rem,9vw,5rem);line-height:1.1;text-shadow:0 0 60px rgba(232,148,90,0.16)}
+  .benediction .small{margin-top:1.4rem;font-family:var(--serif);font-style:italic;color:var(--diya);opacity:.8;font-size:clamp(1.05rem,3vw,1.3rem)}
+  footer{margin-top:clamp(6rem,16vh,10rem);padding:3rem 1.6rem 2rem;text-align:center;border-top:1px solid var(--ash)}
+  footer .fmark{font-family:var(--serif);color:var(--moon-soft);font-size:1.4rem}
+  footer .meta{margin-top:1rem;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--smoke-dim)}
+  footer .meta a{color:var(--smoke);text-decoration:none;border-bottom:1px solid var(--ash)}
+  footer .meta a:hover{color:var(--diya)}
+
+  /* sound toggle */
+  #sound{
+    position:fixed;bottom:1.4rem;right:1.6rem;z-index:45;display:flex;align-items:center;gap:.6rem;
+    background:rgba(11,10,14,0.5);backdrop-filter:blur(6px);border:1px solid var(--ash);border-radius:2px;
+    padding:.5rem .85rem;cursor:pointer;opacity:0;transition:opacity 1.6s var(--ease) 1.4s, border-color .8s;
+    font-family:var(--sans);color:var(--smoke-dim);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase
+  }
+  #sound.shown{opacity:.9}
+  #sound:hover{border-color:var(--diya-deep);color:var(--smoke)}
+  #sound .dot{width:8px;height:8px;border-radius:50%;background:var(--smoke-dim);transition:all .8s}
+  #sound.on .dot{background:var(--diya);box-shadow:0 0 12px rgba(232,148,90,0.7)}
+
+  @media (max-width:600px){
+    #mark{font-size:1.3rem;top:1.1rem;left:1.2rem}
+    .door .body,.door .whisper{padding-left:0}
+    #candle{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    #grain{display:none}
+  }
+</style>
+</head>
+<body class="locked">
+
+  <noscript><style>#threshold{display:none}body.locked{overflow:auto;height:auto}main{opacity:1}.reveal{opacity:1;transform:none}#grain,#candle{display:none}</style></noscript>
+
+  <div id="bg-field"></div>
+  <canvas id="ember-canvas"></canvas>
+  <div id="vignette"></div>
+  <div id="grain"></div>
+  <div id="candle"></div>
+
+  <!-- ENTRY RITUAL -->
+  <div id="threshold">
+    <div class="th-in">
+      <h1 class="title">দুঃখ</h1>
+      <p class="sub">বিষণ্ণতার এক জাদুঘর</p>
+      <p class="quote">“হাজার বছর ধরে আমি পথ হাঁটিতেছি পৃথিবীর পথে।”<cite>জীবনানন্দ দাশ</cite></p>
+      <button class="enter" id="enter-btn" aria-label="জাদুঘরে প্রবেশ করুন">
+        <span class="word">প্রবেশ&nbsp;করুন</span>
+        <span class="hint">ভেতরে শব্দ আছে। একা, নিঃশব্দে, ধীরে দেখুন।</span>
+      </button>
+    </div>
+  </div>
+
+  <a href="#top" id="mark">দুঃখ</a>
+
+  <main id="shell">
+    <div id="top"></div>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto">
+      <p class="kicker reveal">প্রবেশদ্বার</p>
+      <p class="thesis reveal">
+        তুমি কিছুই ধরে রাখতে পারো না।<br />
+        <span class="em">ধরে রাখতে চাওয়াই</span> — সব ভেঙে দেয়।
+      </p>
+      <p class="lede reveal">পাঁচটি ঘর। পাঁচটি ছোট মৃত্যু। কোনো তাড়া নেই — ধীরে ধীরে হেঁটে যাও।</p>
+      <div class="scroll-cue reveal">
+        <span>নামো</span>
+        <span class="line"></span>
+      </div>
+    </section>
+
+    <!-- EXHIBITS -->
+    <section id="exhibits">
+      <div class="ex-head reveal">
+        <p class="kicker">প্রদর্শনী</p>
+        <h2>পাঁচটি ঘর</h2>
+      </div>
+
+      <div class="doors">
+
+        <a class="door reveal" data-door href="burn.html" aria-label="প্রদর্শনী এক — পোড়াও">
+          <div class="door-row">
+            <span class="num">০১</span>
+            <span class="name">পোড়াও</span>
+          </div>
+          <div class="body">
+            <p class="epi">“যা একবার পুড়ে যায়, তা আর ফেরে না।”</p>
+            <p class="desc">তোমার দুঃখ লেখো। আগুনে দিয়ে দাও। শুধু একটিমাত্র শব্দ বেছে নাও — যেটা বাঁচবে। বাকি সব ছাই হয়ে ঝরে পড়বে, চিরতরে।</p>
+            <div class="foot">
+              <span class="go">প্রবেশ করুন →</span>
+              <span class="tag">উন্মুক্ত</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="door reveal" data-door href="pet.html" aria-label="প্রদর্শনী দুই — পোষা">
+          <div class="door-row">
+            <span class="num">০২</span>
+            <span class="name">পোষা</span>
+          </div>
+          <div class="body">
+            <p class="epi">“একটি জোনাকি জ্বলে ওঠে। কেউ জানে না কবে নিভবে।”</p>
+            <p class="desc">অন্ধকারে একটি আলো তোমাকে চিনে নেবে। দিনের পর দিন কাছে আসবে, ভালোবাসবে। তারপর কোনো এক দিন — বিনা নোটিশে — নিভে যাবে। আর কখনো ফিরবে না।</p>
+            <div class="foot">
+              <span class="go">প্রবেশ করুন →</span>
+              <span class="tag">প্রধান প্রদর্শনী</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="door reveal" data-door href="hold.html" aria-label="প্রদর্শনী তিন — ধরে রাখো">
+          <div class="door-row">
+            <span class="num">০৩</span>
+            <span class="name">ধরে রাখো</span>
+          </div>
+          <div class="body">
+            <p class="epi">“বাতাস নিষ্ঠুর হয়। শিখা কেঁপে ওঠে। হাত ব্যথা করে।”</p>
+            <p class="desc">একটি প্রদীপের শিখা আগলে রাখো। বাতাস বাড়তেই থাকবে, আঙুল অসাড় হয়ে আসবে। ছেড়ে দেওয়া অনিবার্য — শুধু কখন, সেটুকুই তোমার হাতে।</p>
+            <div class="foot">
+              <span class="go">প্রবেশ করুন →</span>
+              <span class="tag">উন্মুক্ত</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="door reveal" data-door href="blink.html" aria-label="প্রদর্শনী চার — চোখের পলকে">
+          <div class="door-row">
+            <span class="num">০৪</span>
+            <span class="name">চোখের পলকে</span>
+          </div>
+          <div class="body">
+            <p class="epi">“প্রতিটি পলকে একটি বছর চলে যায়।”</p>
+            <p class="desc">একটি গোটা জীবন কেটে যাবে তোমার চোখের সামনে। যতবার সত্যি সত্যি চোখের পাতা ফেলবে, সময় লাফ দিয়ে এগোবে। পুরো জীবনটা তুমি কোনোদিন দেখতে পাবে না।</p>
+            <div class="foot">
+              <span class="go">প্রবেশ করুন →</span>
+              <span class="tag">ক্যামেরা প্রয়োজন</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="door reveal" data-door href="together.html" aria-label="প্রদর্শনী পাঁচ — একসাথে">
+          <div class="door-row">
+            <span class="num">০৫</span>
+            <span class="name">একসাথে</span>
+          </div>
+          <div class="body">
+            <p class="epi">“একই বৃষ্টিতে দুজন অচেনা মানুষ।”</p>
+            <p class="desc">পৃথিবীর কোনো এক প্রান্তে একজন অচেনা মানুষের সঙ্গে তোমাকে মেলানো হবে। তিন মিনিট, একসাথে, একই বৃষ্টিতে বসবে। কোনো কথা নয়। শেষে শুধু একটিমাত্র বাক্য। তারপর — চিরতরে বিচ্ছিন্ন।</p>
+            <div class="foot">
+              <span class="go">প্রবেশ করুন →</span>
+              <span class="tag">একক পূর্বরূপ</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- INTERLUDE -->
+    <section class="interlude reveal">
+      <blockquote>
+        “যখন পড়বে না মোর পায়ের চিহ্ন এই বাটে,<br />
+        বাইব না মোর খেয়াতরী এই ঘাটে —<br />
+        আমায় তখন নাই বা মনে রাখলে।”
+        <cite>রবীন্দ্রনাথ ঠাকুর</cite>
+      </blockquote>
+    </section>
+
+    <!-- GRAVEYARD -->
+    <section class="graveyard reveal">
+      <canvas id="grave-canvas"></canvas>
+      <p class="kicker">সমাধিক্ষেত্র</p>
+      <h2>লক্ষ লক্ষ ছোট ছোট বাঙালি দুঃখ,<br />পাশাপাশি শুয়ে আছে।</h2>
+      <p>এখানে প্রতিটি নিভে যাওয়া আলোর একটি কবর। তুমি কখনো একা শোক করো না।</p>
+    </section>
+
+    <!-- COLOPHON -->
+    <section class="colophon">
+      <div class="final-quote reveal">
+        “সব পাখি ঘরে আসে — সব নদী — ফুরায় এ-জীবনের সব লেনদেন;<br />
+        থাকে শুধু অন্ধকার, মুখোমুখি বসিবার বনলতা সেন।”
+        <cite>জীবনানন্দ দাশ</cite>
+      </div>
+
+      <div class="benediction reveal">
+        <p class="big">আবার আসিব ফিরে।</p>
+        <p class="small">ধানসিঁড়িটির তীরে — এই বাংলায়।</p>
+      </div>
+
+      <footer class="reveal">
+        <p class="fmark">দুঃখ</p>
+        <p class="meta">বিষণ্ণতার এক জাদুঘর · <a href="#top">আবার শুরু করো</a></p>
+      </footer>
+    </section>
+
+  </main>
+
+  <button id="sound" aria-label="শব্দ চালু বা বন্ধ করুন">
+    <span class="dot"></span>
+    <span>শব্দ</span>
+  </button>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var body = document.body;
+
+  /* ---------- ENTRY ---------- */
+  var threshold = document.getElementById('threshold');
+  var enterBtn = document.getElementById('enter-btn');
+  var shell = document.getElementById('shell');
+  var mark = document.getElementById('mark');
+  var soundBtn = document.getElementById('sound');
+  var entered = false;
+
+  function enter(){
+    if(entered) return; entered = true;
+    threshold.classList.add('gone');
+    body.classList.remove('locked');
+    shell.classList.add('shown');
+    setTimeout(function(){ mark.classList.add('shown'); soundBtn.classList.add('shown'); }, 400);
+    startDrone();
+    if(candle){ candle.style.transform = 'translate('+(innerWidth/2)+'px,'+(innerHeight*0.42)+'px)'; candle.style.opacity = '1'; }
+  }
+  enterBtn.addEventListener('click', enter);
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  var io;
+  if('IntersectionObserver' in window){
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- DOORS (hover glow follows cursor) ---------- */
+  document.querySelectorAll('[data-door]').forEach(function(d){
+    d.addEventListener('mousemove', function(e){
+      var r = d.getBoundingClientRect();
+      d.style.setProperty('--px', ((e.clientX-r.left)/r.width*100)+'%');
+    });
+  });
+
+  /* ---------- CURSOR CANDLELIGHT ---------- */
+  var candle = document.getElementById('candle');
+  if(!reduce && window.matchMedia && window.matchMedia('(pointer:fine)').matches){
+    var cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy, raf=false;
+    window.addEventListener('mousemove', function(e){
+      tx=e.clientX; ty=e.clientY;
+      if(!raf){ raf=true; requestAnimationFrame(moveCandle); }
+    });
+    function moveCandle(){
+      cx += (tx-cx)*0.14; cy += (ty-cy)*0.14;
+      candle.style.transform = 'translate('+cx+'px,'+cy+'px)';
+      if(Math.abs(tx-cx)>0.5||Math.abs(ty-cy)>0.5){ requestAnimationFrame(moveCandle); } else { raf=false; }
+    }
+  }
+
+  /* ---------- EMBER / ASH FIELD ---------- */
+  var cvs = document.getElementById('ember-canvas');
+  if(cvs && !reduce && cvs.getContext && cvs.getContext('2d')){
+    var ctx = cvs.getContext('2d'), W, H, DPR = Math.min(devicePixelRatio||1, 2), parts=[];
+    function resize(){
+      W = cvs.width = innerWidth*DPR; H = cvs.height = innerHeight*DPR;
+      cvs.style.width = innerWidth+'px'; cvs.style.height = innerHeight+'px';
+    }
+    function seed(){
+      var n = Math.min(46, Math.round(innerWidth/26));
+      parts = [];
+      for(var i=0;i<n;i++){ parts.push(mk(true)); }
+    }
+    function mk(anywhere){
+      var warm = Math.random() < 0.34;
+      return {
+        x: Math.random()*W,
+        y: anywhere ? Math.random()*H : H + Math.random()*40*DPR,
+        r: (Math.random()*1.5 + 0.4)*DPR,
+        vy: -(Math.random()*0.28 + 0.06)*DPR,
+        vx: (Math.random()-0.5)*0.18*DPR,
+        life: Math.random(),
+        fade: Math.random()*0.004 + 0.0012,
+        warm: warm,
+        base: Math.random()*0.5 + 0.2
+      };
+    }
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<parts.length;i++){
+        var p = parts[i];
+        p.x += p.vx; p.y += p.vy; p.life += p.fade;
+        p.vx += (Math.random()-0.5)*0.02*DPR;
+        var tw = (Math.sin(p.life*7)*0.3 + 0.7) * p.base;
+        if(p.y < -20*DPR || tw <= 0.02){ parts[i] = mk(false); continue; }
+        var col = p.warm ? '232,148,90' : '138,131,144';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+        ctx.fillStyle = 'rgba('+col+','+tw.toFixed(3)+')';
+        ctx.fill();
+        if(p.warm){
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r*3.2, 0, 6.2832);
+          ctx.fillStyle = 'rgba(232,148,90,'+(tw*0.08).toFixed(3)+')';
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    resize(); seed(); tick();
+    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){resize();seed();},200); });
+  }
+
+  /* ---------- GRAVEYARD FIELD ---------- */
+  var gc = document.getElementById('grave-canvas');
+  if(gc && gc.getContext && gc.getContext('2d')){
+    var g = gc.getContext('2d'), gW, gH, gStars=[];
+    function gResize(){
+      var r = gc.parentElement.getBoundingClientRect();
+      gW = gc.width = r.width; gH = gc.height = r.height;
+      gStars = [];
+      var n = Math.round((gW*gH)/5200);
+      for(var i=0;i<n;i++){
+        gStars.push({x:Math.random()*gW, y:Math.random()*gH, r:Math.random()*1.1+0.2, a:Math.random()*0.4+0.06, sp:Math.random()*0.9+0.2, ph:Math.random()*6.28});
+      }
+    }
+    function gTick(t){
+      g.clearRect(0,0,gW,gH);
+      for(var i=0;i<gStars.length;i++){
+        var s = gStars[i];
+        var tw = s.a * (0.55 + 0.45*Math.sin(t*0.0006*s.sp + s.ph));
+        g.beginPath(); g.arc(s.x, s.y, s.r, 0, 6.2832);
+        g.fillStyle = 'rgba(232,148,90,'+tw.toFixed(3)+')';
+        g.fill();
+      }
+      requestAnimationFrame(gTick);
+    }
+    setTimeout(function(){ gResize(); if(!reduce) requestAnimationFrame(gTick); else gTick(0); }, 300);
+    window.addEventListener('resize', function(){ clearTimeout(gc._t); gc._t=setTimeout(gResize,200); });
+  }
+
+  /* ---------- AMBIENT DRONE (WebAudio) ---------- */
+  var audioCtx=null, master=null, droneOn=false, nodes=[];
+  function buildDrone(){
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return false;
+    audioCtx = new AC();
+    master = audioCtx.createGain();
+    master.gain.value = 0.0;
+    var lp = audioCtx.createBiquadFilter();
+    lp.type='lowpass'; lp.frequency.value=780; lp.Q.value=0.6;
+    master.connect(lp); lp.connect(audioCtx.destination);
+    // harmonium-like drone: fundamental, fifth, octave, all detuned & breathing
+    var freqs = [110.0, 164.81, 220.0];
+    var gains = [0.9, 0.5, 0.32];
+    freqs.forEach(function(f,i){
+      var o1 = audioCtx.createOscillator(); o1.type='triangle'; o1.frequency.value=f;
+      var o2 = audioCtx.createOscillator(); o2.type='sine'; o2.frequency.value=f; o2.detune.value=6;
+      var vg = audioCtx.createGain(); vg.gain.value = gains[i]*0.5;
+      o1.connect(vg); o2.connect(vg); vg.connect(master);
+      // slow amplitude breathing
+      var lfo = audioCtx.createOscillator(); lfo.type='sine'; lfo.frequency.value = 0.05 + i*0.017;
+      var lg = audioCtx.createGain(); lg.gain.value = gains[i]*0.16;
+      lfo.connect(lg); lg.connect(vg.gain);
+      o1.start(); o2.start(); lfo.start();
+      nodes.push(o1,o2,lfo);
+    });
+    return true;
+  }
+  function startDrone(){
+    if(droneOn) return;
+    if(!audioCtx){ if(!buildDrone()) return; }
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    master.gain.cancelScheduledValues(audioCtx.currentTime);
+    master.gain.setValueAtTime(master.gain.value, audioCtx.currentTime);
+    master.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 3.0);
+    droneOn = true; soundBtn.classList.add('on');
+  }
+  function stopDrone(){
+    if(!audioCtx||!droneOn) return;
+    master.gain.cancelScheduledValues(audioCtx.currentTime);
+    master.gain.setValueAtTime(master.gain.value, audioCtx.currentTime);
+    master.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 1.6);
+    droneOn = false; soundBtn.classList.remove('on');
+  }
+  soundBtn.addEventListener('click', function(){ droneOn ? stopDrone() : startDrone(); });
+
+  /* ---------- TAB AWARENESS ---------- */
+  var realTitle = document.title;
+  document.addEventListener('visibilitychange', function(){
+    document.title = document.hidden ? 'তুমি কোথায়?' : realTitle;
+  });
+
+})();
+</script>
+</body>
+</html>
