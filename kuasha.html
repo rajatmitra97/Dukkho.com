@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>কুয়াশা — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cpath d='M6 14h20M4 19h24M8 24h16' stroke='%236B6B73' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--void);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  #c{position:fixed;inset:0;z-index:1;touch-action:none}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:30;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #hint{position:fixed;left:50%;bottom:11%;transform:translateX(-50%);z-index:20;text-align:center;font-family:var(--serif);font-style:italic;color:var(--smoke-dim);font-size:1rem;max-width:80vw;opacity:0;transition:opacity 1.2s}
+
+  .overlay{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 46%,#0d0b10,var(--void-deep) 78%);transition:opacity 1.8s var(--ease),visibility 1.8s}
+  .overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .overlay .in{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:1.5rem;animation:rise 1.8s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(3rem,12vw,5.5rem);color:var(--moon);line-height:1;text-shadow:0 0 50px rgba(200,195,186,.12)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.3vw,1.28rem);line-height:1.8;max-width:32ch}
+  .epi cite{display:block;margin-top:.7rem;font-style:normal;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--smoke-dim)}
+  .note{font-size:.82rem;letter-spacing:.05em;color:var(--smoke-dim);max-width:34ch;line-height:1.9}
+  .cta{font-family:var(--sans);font-weight:400;font-size:1rem;letter-spacing:.3em;color:var(--diya);padding:.85rem 2.2rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover{border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.14);letter-spacing:.36em}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.18em;color:var(--smoke);padding:.75rem 1.7rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+  #end .big{font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.5rem,5vw,2.3rem);line-height:1.5;max-width:24ch}
+  .row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <div id="hint"></div>
+
+  <div class="overlay" id="intro">
+    <div class="in">
+      <h1 class="title">কুয়াশা</h1>
+      <p class="epi">“দুয়ার এঁটে ঘুমিয়ে আছে পাড়া / কেবল শুনি রাতের কড়ানাড়া — ‘অবনী, বাড়ি আছো?’”<cite>শক্তি চট্টোপাধ্যায়</cite></p>
+      <p class="note">সামনে এগিয়ে যাও। কুয়াশার ভেতর কিছু মুহূর্ত ভেসে উঠবে — এক নিঃশ্বাসের জন্য। তারপর পেছনে মিলিয়ে যাবে। ফেরার পথ নেই।</p>
+      <button class="cta" id="begin">এগিয়ে যাও</button>
+      <p class="note" style="color:var(--smoke-dim)">চেপে ধরে রাখো — সামনে হাঁটতে থাকবে।</p>
+    </div>
+  </div>
+
+  <div class="overlay gone" id="end">
+    <div class="in">
+      <p class="big" id="end-line">তুমি অনেক দূর এসে গেছ।<br>যেখান থেকে এলে — তা আর নেই।</p>
+      <div class="row">
+        <button class="btn2" id="again">আবার হাঁটো</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cv=document.getElementById('c'),ctx=cv.getContext('2d'),DPR=Math.min(window.devicePixelRatio||1,2),W,H;
+  function resize(){W=cv.width=innerWidth*DPR;H=cv.height=innerHeight*DPR;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  resize();addEventListener('resize',resize);
+  var $=function(id){return document.getElementById(id);};
+
+  var fragmentsPool=[
+    'উঠোনে জল পড়ে আছে, কেউ মোছেনি।',
+    'মায়ের গলা — “আর একটু খেয়ে যা।”',
+    'দূরে একটা সাইকেলের ঘণ্টা।',
+    'ভেজা বইয়ের গন্ধ।',
+    'একটা দরজা, আধখোলা।',
+    'কেউ ডাকছে — “অবনী, বাড়ি আছো?”',
+    'স্কুলের ঘণ্টা, শেষবারের মতো।',
+    'তোর হাসি — নামটা মনে নেই।',
+    'ছাদে শুকোতে দেওয়া মায়ের শাড়ি।',
+    'কারও হাত, ছেড়ে যাওয়ার আগে।',
+    'বৃষ্টির পর ভিজে উঠোন, খালি।',
+    'একটা গান, অর্ধেক মনে আছে।',
+    'জানালার কাঁচে কারও নিঃশ্বাস।',
+    'যে ঘরে আর কেউ থাকে না।'
+  ];
+  // shuffle
+  for(var s=fragmentsPool.length-1;s>0;s--){var r=Math.floor(Math.random()*(s+1));var tmp=fragmentsPool[s];fragmentsPool[s]=fragmentsPool[r];fragmentsPool[r]=tmp;}
+
+  var blobs=[];
+  function seedFog(){blobs=[];for(var i=0;i<16;i++){blobs.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:120+Math.random()*220,a:0.02+Math.random()*0.05,vx:(Math.random()-0.5)*6});}}
+  seedFog();
+
+  var playerDist=0, active=[], spawnPtr=0, nextSpawnAt=30, TOTAL=14, shown=0, advancing=false, running=false, ended=false;
+
+  function begin(){
+    $('intro').classList.add('gone');$('end').classList.add('gone');
+    playerDist=0;active=[];spawnPtr=0;nextSpawnAt=30;shown=0;ended=false;running=true;
+    showHint('চেপে ধরে সামনে এগোও');
+  }
+  $('begin').addEventListener('click',begin);
+  $('again').addEventListener('click',function(){
+    for(var s=fragmentsPool.length-1;s>0;s--){var r=Math.floor(Math.random()*(s+1));var t=fragmentsPool[s];fragmentsPool[s]=fragmentsPool[r];fragmentsPool[r]=t;}
+    begin();
+  });
+
+  var hintTimer;
+  function showHint(t){var h=$('hint');h.textContent=t;h.style.opacity='.7';clearTimeout(hintTimer);hintTimer=setTimeout(function(){h.style.opacity='0';},3400);}
+
+  function down(e){if(!running)return;advancing=true;if(e&&e.cancelable)e.preventDefault();}
+  function up(){advancing=false;}
+  cv.addEventListener('pointerdown',down);addEventListener('pointerup',up);addEventListener('pointercancel',up);
+  addEventListener('keydown',function(e){
+    if(e.code==='Space'||e.key==='ArrowDown'){e.preventDefault();if(!running&&!$('intro').classList.contains('gone')){begin();return;}advancing=true;}
+    else if(e.key==='ArrowUp'){showHint('পেছনে আর পথ নেই।');}
+  });
+  addEventListener('keyup',function(e){if(e.code==='Space'||e.key==='ArrowDown'){advancing=false;}});
+
+  var prev=performance.now(),firstMove=false;
+  function frame(now){
+    var dt=Math.min((now-prev)/1000,0.05);prev=now;
+    ctx.clearRect(0,0,W,H);
+
+    var moving = running && advancing && !ended;
+    if(moving){ playerDist += 9*dt; if(!firstMove){firstMove=true;setTimeout(function(){showHint('তুমি শুধু সামনে যেতে পারো।');},400);} }
+
+    // fog
+    ctx.globalCompositeOperation='lighter';
+    for(var i=0;i<blobs.length;i++){
+      var b=blobs[i];
+      b.x+=b.vx*0.02 + (moving?0:0);
+      b.y+=(moving?42:10)*dt*DPR/DPR; // drift downward, faster while moving
+      if(b.y-b.r>innerHeight){b.y=-b.r*0.5;b.x=Math.random()*innerWidth;}
+      if(b.x<-b.r)b.x=innerWidth+b.r;if(b.x>innerWidth+b.r)b.x=-b.r;
+      var g=ctx.createRadialGradient(b.x*DPR,b.y*DPR,0,b.x*DPR,b.y*DPR,b.r*DPR);
+      g.addColorStop(0,'rgba(150,150,160,'+b.a+')');
+      g.addColorStop(1,'rgba(150,150,160,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(b.x*DPR,b.y*DPR,b.r*DPR,0,6.2832);ctx.fill();
+    }
+    ctx.globalCompositeOperation='source-over';
+
+    if(running&&!ended){
+      // spawn fragments ahead
+      if(shown+spawnPtr>=0 && playerDist>nextSpawnAt-40 && spawnPtr<TOTAL && active.length<3){
+        active.push({text:fragmentsPool[spawnPtr%fragmentsPool.length],world:nextSpawnAt,x:0.5+(Math.random()-0.5)*0.3});
+        spawnPtr++;nextSpawnAt+=14+Math.random()*6;
+      }
+      // draw fragments by relative distance
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      for(var f=active.length-1;f>=0;f--){
+        var fr=active[f];var rel=fr.world-playerDist; // 40 far .. 0 at me .. negative passed
+        if(rel<-8){active.splice(f,1);shown++;continue;}
+        var norm=Math.max(0,Math.min(1,(40-rel)/48)); // 0 far ->1 passed
+        var y=innerHeight*(0.26+norm*0.52);
+        var size=(0.8+norm*1.5);
+        // trapezoid alpha
+        var a;
+        if(norm<0.22)a=norm/0.22;
+        else if(norm>0.72)a=Math.max(0,(1-norm)/0.28);
+        else a=1;
+        a*=0.92;
+        ctx.font='italic '+(size*17*DPR)+'px "Tiro Bangla", serif';
+        ctx.shadowColor='rgba(11,10,14,0.9)';ctx.shadowBlur=12*DPR;
+        ctx.fillStyle='rgba(220,216,208,'+a.toFixed(3)+')';
+        ctx.fillText(fr.text,fr.x*innerWidth*DPR,y*DPR);
+        ctx.shadowBlur=0;
+      }
+      // end
+      if(shown>=TOTAL){ endWalk(); }
+    }
+
+    // vignette
+    var vg=ctx.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,H*0.75);
+    vg.addColorStop(0,'rgba(7,6,9,0)');vg.addColorStop(1,'rgba(7,6,9,0.65)');
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(frame);
+  }
+  function endWalk(){
+    ended=true;running=false;$('hint').style.opacity='0';
+    setTimeout(function(){$('end').classList.remove('gone');},1200);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

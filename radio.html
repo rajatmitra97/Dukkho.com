@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>নিশীথ বেতার — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23E8945A' stroke-width='1.4'/%3E%3Cline x1='16' y1='16' x2='22' y2='11' stroke='%23E8945A' stroke-width='1.4'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&family=Cormorant+Garamond:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--ash-l:#3A3640;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;--latin:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:radial-gradient(120% 100% at 50% 40%,#0e0c11,var(--void-deep) 85%);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  #static{position:fixed;inset:0;z-index:1;pointer-events:none}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:30;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #sound{position:fixed;top:1.3rem;right:1.4rem;z-index:30;display:flex;align-items:center;gap:.5rem;border:1px solid var(--ash);border-radius:2px;padding:.45rem .8rem;cursor:pointer;color:var(--smoke-dim);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;transition:all .7s}
+  #sound:hover{border-color:var(--diya-deep);color:var(--smoke)}
+  #sound .dot{width:8px;height:8px;border-radius:50%;background:var(--smoke-dim);transition:all .6s}
+  #sound.on .dot{background:var(--diya);box-shadow:0 0 12px rgba(232,148,90,.7)}
+
+  #stage{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;touch-action:none}
+  #frag{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.5rem,5vw,2.6rem);line-height:1.55;max-width:20ch;min-height:3.2em;opacity:0;transition:opacity .35s var(--ease);text-shadow:0 0 40px rgba(232,148,90,.12)}
+  #poet{margin-top:1.4rem;font-family:var(--sans);font-weight:400;font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;color:var(--diya-deep);opacity:0;transition:opacity .5s}
+  #freqread{margin-top:.4rem;font-family:var(--latin);font-size:.9rem;letter-spacing:.2em;color:var(--smoke-dim)}
+
+  /* dial */
+  #dialwrap{position:fixed;left:0;right:0;bottom:8%;z-index:10;display:flex;flex-direction:column;align-items:center;gap:1rem;padding:0 1.5rem;pointer-events:none}
+  #scale{position:relative;width:min(92vw,620px);height:52px;pointer-events:none}
+  #ticks{position:absolute;inset:0}
+  #needle{position:absolute;top:-6px;width:2px;height:58px;background:linear-gradient(var(--diya-bright),var(--diya-deep));box-shadow:0 0 14px rgba(232,148,90,.8);transform:translateX(-1px);transition:left .05s linear}
+  .stmark{position:absolute;bottom:0;width:1px;height:10px;background:var(--ash-l)}
+  #tunehint{font-family:var(--serif);font-style:italic;color:var(--smoke-dim);font-size:.95rem;opacity:.8;transition:opacity 1s}
+
+  .overlay{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 46%,#0e0c11,var(--void-deep) 80%);transition:opacity 1.6s var(--ease),visibility 1.6s}
+  .overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .overlay .in{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:1.5rem;animation:rise 1.8s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(2.4rem,9vw,4.4rem);color:var(--moon);line-height:1;text-shadow:0 0 50px rgba(232,148,90,.14)}
+  .note{font-size:.9rem;letter-spacing:.05em;color:var(--smoke-dim);max-width:34ch;line-height:1.95}
+  .cta{font-family:var(--sans);font-weight:400;font-size:1rem;letter-spacing:.3em;color:var(--diya);padding:.85rem 2.2rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover{border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.14);letter-spacing:.36em}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <canvas id="static"></canvas>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <div id="sound"><span class="dot"></span><span>শব্দ</span></div>
+
+  <div id="stage">
+    <div id="frag"></div>
+    <div id="poet"></div>
+    <div id="freqread"></div>
+  </div>
+
+  <div id="dialwrap">
+    <div id="scale"><div id="ticks"></div><div id="needle"></div></div>
+    <div id="tunehint">টেনে ঘোরাও — স্থির কোনো কণ্ঠ পাবে না</div>
+  </div>
+
+  <div class="overlay" id="intro">
+    <div class="in">
+      <h1 class="title">নিশীথ বেতার</h1>
+      <p class="note">গভীর রাতের একটা পুরোনো রেডিও। ঘোরাও। স্থির কোনো স্টেশন নেই — শুধু ভাঙা ভাঙা পঙক্তি ভেসে ওঠে, তারপর আবার শূন্যতা। কবিরা ফিসফিস করেন, যতক্ষণ শোনো।</p>
+      <button class="cta" id="begin">রেডিও চালু করো</button>
+      <p class="note" style="color:var(--smoke-dim)">শব্দসহ শোনা ভালো।</p>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cvs=document.getElementById('static'),ctx=cvs.getContext('2d'),DPR=Math.min(window.devicePixelRatio||1,2),W,H;
+  function resize(){W=cvs.width=innerWidth*DPR;H=cvs.height=innerHeight*DPR;cvs.style.width=innerWidth+'px';cvs.style.height=innerHeight+'px';}
+  resize();addEventListener('resize',resize);
+  var $=function(id){return document.getElementById(id);};
+  function toBn(n){return String(n).replace(/[0-9]/g,function(d){return '০১২৩৪৫৬৭৮৯'[d];});}
+
+  var stations=[
+    {f:6, t:'অদ্ভুত আঁধার এক এসেছে এ পৃথিবীতে আজ।', p:'জীবনানন্দ দাশ'},
+    {f:16,t:'অবনী, বাড়ি আছো?', p:'শক্তি চট্টোপাধ্যায়'},
+    {f:25,t:'ভালোবাসা দিতে পারি, তোমরা কি গ্রহণে সক্ষম?', p:'বিনয় মজুমদার'},
+    {f:35,t:'তিরিশ বছর ভিজায়ে রেখেছি দুই নয়নের জলে।', p:'জসীমউদ্দীন · কবর'},
+    {f:45,t:'দাঁড়াও, পথিক-বর, তিষ্ঠ ক্ষণকাল!', p:'মাইকেল মধুসূদন দত্ত'},
+    {f:55,t:'পূর্ণিমা-চাঁদ যেন ঝলসানো রুটি।', p:'সুকান্ত ভট্টাচার্য'},
+    {f:65,t:'খাঁচার ভিতর অচিন পাখি কেমনে আসে যায়।', p:'লালন ফকির'},
+    {f:74,t:'আমায় তখন নাই বা মনে রাখলে।', p:'রবীন্দ্রনাথ ঠাকুর'},
+    {f:84,t:'থাকে শুধু অন্ধকার, মুখোমুখি বসিবার বনলতা সেন।', p:'জীবনানন্দ দাশ'},
+    {f:93,t:'হাজার বছর ধরে আমি পথ হাঁটিতেছি পৃথিবীর পথে।', p:'জীবনানন্দ দাশ'}
+  ];
+  var LOCK=3.2;
+  var freq=50, drift=(Math.random()-0.5), dragging=false, lastInteract=0, running=false;
+
+  // build ticks + station marks
+  (function(){
+    var ticks=$('ticks');
+    for(var i=0;i<=100;i+=2){var d=document.createElement('div');d.className='stmark';d.style.left=i+'%';d.style.height=(i%10===0?'16px':'8px');d.style.opacity=(i%10===0?'0.5':'0.25');ticks.appendChild(d);}
+    stations.forEach(function(s){var d=document.createElement('div');d.className='stmark';d.style.left=s.f+'%';d.style.height='22px';d.style.background='var(--diya-deep)';d.style.opacity='0.5';ticks.appendChild(d);});
+  })();
+
+  // ---- audio ----
+  var actx=null,staticGain=null,noiseSrc=null,soundOn=false;
+  function initAudio(){
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+    actx=new AC();
+    var buf=actx.createBuffer(1,actx.sampleRate*2,actx.sampleRate),data=buf.getChannelData(0);
+    for(var i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*0.5;
+    noiseSrc=actx.createBufferSource();noiseSrc.buffer=buf;noiseSrc.loop=true;
+    var bp=actx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1600;bp.Q.value=0.4;
+    staticGain=actx.createGain();staticGain.gain.value=0;
+    noiseSrc.connect(bp);bp.connect(staticGain);staticGain.connect(actx.destination);
+    noiseSrc.start();
+    return true;
+  }
+  function setSound(on){
+    soundOn=on;$('sound').classList.toggle('on',on);
+    if(on){if(!actx){if(!initAudio())return;}if(actx.state==='suspended')actx.resume();}
+  }
+  $('sound').addEventListener('click',function(){setSound(!soundOn);});
+
+  function begin(){
+    $('intro').classList.add('gone');running=true;lastInteract=performance.now();
+    setSound(true);
+  }
+  $('begin').addEventListener('click',begin);
+
+  // ---- tuning input (drag anywhere on stage) ----
+  function setFromX(clientX){
+    var pad=innerWidth*0.04; // approx scale margin
+    var w=Math.min(innerWidth*0.92,620);
+    var left=(innerWidth-w)/2;
+    var f=(clientX-left)/w*100;
+    freq=Math.max(0,Math.min(100,f));
+    lastInteract=performance.now();
+  }
+  function pdown(e){if(!running)return;dragging=true;setFromX(e.clientX);if(e.cancelable)e.preventDefault();}
+  function pmove(e){if(dragging){setFromX(e.clientX);}}
+  function pup(){dragging=false;lastInteract=performance.now();}
+  var stage=$('stage');
+  stage.addEventListener('pointerdown',pdown);addEventListener('pointermove',pmove);addEventListener('pointerup',pup);addEventListener('pointercancel',pup);
+  addEventListener('keydown',function(e){
+    if(!running)return;
+    if(e.key==='ArrowLeft'){freq=Math.max(0,freq-0.8);lastInteract=performance.now();}
+    else if(e.key==='ArrowRight'){freq=Math.min(100,freq+0.8);lastInteract=performance.now();}
+  });
+
+  var tuneHintHidden=false;
+  var prev=performance.now();
+  function frame(now){
+    var dt=Math.min((now-prev)/1000,0.05);prev=now;
+
+    if(running){
+      // drift when idle (can never hold a station)
+      if(now-lastInteract>500 && !dragging){
+        drift+=(Math.random()-0.5)*dt*1.4;drift=Math.max(-2,Math.min(2,drift));
+        freq+=drift*dt*2.2;
+        if(freq<0){freq=0;drift=Math.abs(drift);}if(freq>100){freq=100;drift=-Math.abs(drift);}
+      }
+    }
+
+    // nearest station
+    var best=null,bd=999;
+    for(var i=0;i<stations.length;i++){var d=Math.abs(freq-stations[i].f);if(d<bd){bd=d;best=stations[i];}}
+    var lock=Math.max(0,Math.min(1,1-bd/LOCK));
+    var staticLevel=1-lock;
+
+    // update text
+    var fragEl=$('frag'),poetEl=$('poet');
+    if(lock>0.04){
+      if(fragEl.dataset.f!==String(best.f)){fragEl.textContent=best.t;poetEl.textContent=best.p;fragEl.dataset.f=String(best.f);}
+      fragEl.style.opacity=Math.pow(lock,1.3).toFixed(3);
+      poetEl.style.opacity=(lock*lock).toFixed(3);
+    }else{
+      fragEl.style.opacity='0';poetEl.style.opacity='0';fragEl.dataset.f='';
+    }
+    $('freqread').textContent=toBn((70+freq*0.7).toFixed(1))+' MHz';
+
+    // needle
+    $('needle').style.left=freq+'%';
+
+    if(running&&!tuneHintHidden&&(dragging||now-lastInteract<200)){tuneHintHidden=true;$('tunehint').style.opacity='0.25';}
+
+    // audio static
+    if(soundOn&&staticGain&&actx){staticGain.gain.setTargetAtTime(staticLevel*0.06,actx.currentTime,0.08);}
+
+    // static shimmer canvas
+    ctx.clearRect(0,0,W,H);
+    if(!reduce){
+      var count=Math.round(staticLevel*staticLevel*260);
+      ctx.fillStyle='rgba(180,178,186,'+(0.05+staticLevel*0.10).toFixed(3)+')';
+      for(var s=0;s<count;s++){
+        var x=Math.random()*W,y=Math.random()*H,w=Math.random()*2*DPR+DPR;
+        ctx.fillRect(x,y,w,DPR);
+      }
+      // a faint scan sweep
+      var sweep=(now*0.00004)%1;
+      var g=ctx.createLinearGradient(0,sweep*H-40*DPR,0,sweep*H+40*DPR);
+      g.addColorStop(0,'rgba(232,148,90,0)');g.addColorStop(0.5,'rgba(232,148,90,'+(0.02+lock*0.03)+')');g.addColorStop(1,'rgba(232,148,90,0)');
+      ctx.fillStyle=g;ctx.fillRect(0,sweep*H-40*DPR,W,80*DPR);
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

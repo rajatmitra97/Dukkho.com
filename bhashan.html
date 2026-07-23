@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>ভাসান — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Cellipse cx='16' cy='14' rx='3' ry='5' fill='%23FFC486'/%3E%3Crect x='13' y='18' width='6' height='8' fill='%23E8945A' opacity='.3'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--void);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  #c{position:fixed;inset:0;z-index:1;touch-action:none}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:30;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+  #forwho{position:fixed;top:1.35rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--serif);font-style:italic;color:var(--smoke-dim);font-size:1rem;opacity:0;transition:opacity 1.2s}
+  #forwho.on{opacity:.7}
+  #hint{position:fixed;left:50%;bottom:9%;transform:translateX(-50%);z-index:20;text-align:center;font-family:var(--serif);font-style:italic;color:var(--smoke-dim);font-size:1.02rem;max-width:80vw;opacity:0;transition:opacity 1.2s}
+
+  .overlay{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:radial-gradient(130% 100% at 50% 60%,#0c0a0f,var(--void-deep) 82%);transition:opacity 1.8s var(--ease),visibility 1.8s}
+  .overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .overlay .in{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:1.5rem;animation:rise 1.8s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(3rem,12vw,5.5rem);color:var(--moon);line-height:1;text-shadow:0 0 50px rgba(232,148,90,.16)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.3vw,1.28rem);line-height:1.8;max-width:32ch}
+  .epi cite{display:block;margin-top:.7rem;font-style:normal;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--smoke-dim)}
+  .note{font-size:.82rem;letter-spacing:.05em;color:var(--smoke-dim);max-width:34ch;line-height:1.9}
+  .oneline{display:flex;gap:.6rem;align-items:center;margin-top:.2rem}
+  .oneline input{background:rgba(10,9,12,.5);border:none;border-bottom:1px solid var(--ash);color:var(--diya-bright);font-family:var(--serif);font-size:clamp(1.2rem,4vw,1.6rem);padding:.5rem .6rem;text-align:center;outline:none;width:min(70vw,280px)}
+  .oneline input:focus{border-color:var(--diya-deep)}
+  .oneline input::placeholder{color:var(--smoke-dim)}
+  .cta{font-family:var(--sans);font-weight:400;font-size:.98rem;letter-spacing:.3em;color:var(--diya);padding:.85rem 2.2rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover{border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.14);letter-spacing:.36em}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.18em;color:var(--smoke);padding:.7rem 1.5rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+  #tools{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);z-index:25;display:none;gap:1rem}
+  #tools.on{display:flex}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <a class="back" href="index.html">← দুঃখ</a>
+  <div id="forwho"></div>
+  <div id="hint"></div>
+
+  <div id="tools">
+    <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+  </div>
+
+  <div class="overlay" id="intro">
+    <div class="in">
+      <h1 class="title">ভাসান</h1>
+      <p class="epi">“খাঁচার ভিতর অচিন পাখি কেমনে আসে যায়।”<cite>লালন ফকির</cite></p>
+      <p class="note">যাকে আর ধরে রাখা যায় না, তার জন্য একটা প্রদীপ জ্বালো — জলে ভাসিয়ে দাও। স্রোত তাকে নিয়ে যাবে অন্ধকারে। আর ফিরবে না।</p>
+      <div class="oneline"><input id="who" maxlength="22" placeholder="কার জন্য? (ইচ্ছে হলে)" autocomplete="off" spellcheck="false" /></div>
+      <button class="cta" id="begin">জলের ধারে যাও</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cv=document.getElementById('c'),ctx=cv.getContext('2d'),DPR=Math.min(window.devicePixelRatio||1,2),W,H;
+  function resize(){W=cv.width=innerWidth*DPR;H=cv.height=innerHeight*DPR;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  resize();addEventListener('resize',resize);
+  var $=function(id){return document.getElementById(id);};
+
+  var KEY='dukkho_lamps';
+  function getStored(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(_){return [];}}
+  function store(list){try{localStorage.setItem(KEY,JSON.stringify(list.slice(-120)));}catch(_){}}
+
+  var lamps=[]; // {x,progress,name,speed,sway,mine}
+  function mkLamp(x,name,mine){return {x:x,progress:mine?0:Math.random()*0.8,name:name||'',speed:0.020+Math.random()*0.012,sway:0.6+Math.random()*1.4,phase:Math.random()*6.28,mine:!!mine};}
+
+  var seedNames=['','','','মা','','দাদু','','অপু','','','ঠাকুমা','','','নীলা',''];
+  function seedAmbient(){
+    var st=getStored();
+    var pool=seedNames.concat(st.map(function(l){return l.name||'';}));
+    for(var i=0;i<7;i++){lamps.push(mkLamp(0.15+Math.random()*0.7,pool[Math.floor(Math.random()*pool.length)],false));}
+  }
+  seedAmbient();
+
+  var running=false, forName='';
+  $('begin').addEventListener('click',function(){
+    forName=($('who').value||'').trim();
+    if(forName){$('forwho').textContent='—  '+forName+'  —';$('forwho').classList.add('on');}
+    $('intro').classList.add('gone');$('tools').classList.add('on');running=true;
+    showHint('জলে ছোঁও — একটি প্রদীপ ভাসাও।');
+  });
+
+  var hintTimer,released=0;
+  function showHint(t){var h=$('hint');h.textContent=t;h.style.opacity='.7';clearTimeout(hintTimer);hintTimer=setTimeout(function(){h.style.opacity='0';},4200);}
+
+  cv.addEventListener('pointerdown',function(e){
+    if(!running)return;
+    var x=e.clientX/innerWidth;
+    lamps.push(mkLamp(Math.max(0.08,Math.min(0.92,x)),forName,true));
+    if(lamps.length>60)lamps.shift();
+    released++;
+    var st=getStored();st.push({name:forName,t:Date.now()});store(st);
+    if(released===1){showHint('সে এখন স্রোতের। তুমি এখন একটু হালকা।');}
+  });
+
+  // ambient spawns
+  var lastSpawn=0;
+  function maybeSpawn(now){
+    if(now-lastSpawn>4200+Math.random()*4000){
+      lastSpawn=now;
+      var st=getStored();var pool=seedNames.concat(st.map(function(l){return l.name||'';}));
+      lamps.push(mkLamp(0.1+Math.random()*0.8,pool[Math.floor(Math.random()*pool.length)],false));
+    }
+  }
+
+  var waterTop=0.5;
+  function lampY(p){return (0.9 - p*0.72);} // near-shore bottom -> horizon
+  function lampScale(p){return 1-p*0.78;}
+
+  var prev=performance.now();
+  function frame(now){
+    var dt=Math.min((now-prev)/1000,0.05);prev=now;
+    ctx.clearRect(0,0,W,H);
+
+    // sky void + faint horizon glow
+    var horizonY=H*waterTop;
+    var sky=ctx.createLinearGradient(0,0,0,horizonY);
+    sky.addColorStop(0,'rgba(10,9,14,0)');sky.addColorStop(1,'rgba(30,22,26,0.25)');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizonY);
+    // faint horizon line glow
+    var hg=ctx.createLinearGradient(0,horizonY-30*DPR,0,horizonY+10*DPR);
+    hg.addColorStop(0,'rgba(232,148,90,0)');hg.addColorStop(0.6,'rgba(168,84,49,0.10)');hg.addColorStop(1,'rgba(168,84,49,0)');
+    ctx.fillStyle=hg;ctx.fillRect(0,horizonY-30*DPR,W,40*DPR);
+
+    // water shimmer
+    ctx.globalCompositeOperation='lighter';
+    for(var i=0;i<26;i++){
+      var yy=horizonY + (i/26)*(H-horizonY);
+      var depth=(yy-horizonY)/(H-horizonY); // 0 far ->1 near
+      var wob=Math.sin(now*0.0008*(1+depth)+i*1.3)*6*DPR*depth;
+      ctx.strokeStyle='rgba(150,150,165,'+(0.015+depth*0.03).toFixed(3)+')';
+      ctx.lineWidth=DPR;
+      ctx.beginPath();ctx.moveTo(0,yy+wob);ctx.lineTo(W,yy-wob);ctx.stroke();
+    }
+
+    if(running)maybeSpawn(now);
+
+    // lamps (far first)
+    lamps.sort(function(a,b){return b.progress-a.progress;});
+    for(var l=lamps.length-1;l>=0;l--){
+      var La=lamps[l];
+      if(running||!La.mine)La.progress+=La.speed*dt;
+      if(La.progress>=1){lamps.splice(l,1);continue;}
+      var p=La.progress;
+      var sway=Math.sin(p*Math.PI*La.sway+La.phase)*0.04*(1-p);
+      var sx=(La.x+sway)*W;
+      var sy=lampY(p)*H;
+      var sc=lampScale(p);
+      var alpha=(p<0.82?1:(1-p)/0.18)*(1-p*0.45);
+      alpha=Math.max(0,Math.min(1,alpha));
+      // reflection on water (downward)
+      if(sy<H){
+        var refLen=60*DPR*sc;
+        var rg=ctx.createLinearGradient(sx,sy,sx,sy+refLen);
+        rg.addColorStop(0,'rgba(232,148,90,'+(alpha*0.35)+')');
+        rg.addColorStop(1,'rgba(232,148,90,0)');
+        ctx.fillStyle=rg;ctx.fillRect(sx-2*DPR*sc,sy,4*DPR*sc,refLen);
+      }
+      // halo
+      var R=34*DPR*sc;
+      var g=ctx.createRadialGradient(sx,sy,0,sx,sy,R);
+      g.addColorStop(0,'rgba(255,196,134,'+(alpha*0.7)+')');
+      g.addColorStop(0.4,'rgba(232,148,90,'+(alpha*0.18)+')');
+      g.addColorStop(1,'rgba(232,148,90,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,R,0,6.2832);ctx.fill();
+      // flame core
+      ctx.fillStyle='rgba(255,240,214,'+alpha+')';
+      ctx.beginPath();ctx.ellipse(sx,sy-2*DPR*sc,1.8*DPR*sc,3.2*DPR*sc,0,0,6.2832);ctx.fill();
+      // name (faint), only for closer lamps
+      if(La.name && p<0.55 && sc>0.5){
+        ctx.globalCompositeOperation='source-over';
+        ctx.font='italic '+(12*DPR*sc)+'px "Tiro Bangla", serif';
+        ctx.textAlign='center';ctx.fillStyle='rgba(200,195,186,'+(alpha*0.5)+')';
+        ctx.fillText(La.name,sx,sy+52*DPR*sc);
+        ctx.globalCompositeOperation='lighter';
+      }
+    }
+    ctx.globalCompositeOperation='source-over';
+
+    // top vignette
+    var vg=ctx.createLinearGradient(0,0,0,H*0.4);
+    vg.addColorStop(0,'rgba(7,6,9,0.6)');vg.addColorStop(1,'rgba(7,6,9,0)');
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H*0.4);
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

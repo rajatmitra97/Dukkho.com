@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>শেষ চিঠি — দুঃখ</title>
+<meta name="theme-color" content="#0B0A0E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A0E'/%3E%3Crect x='7' y='10' width='18' height='13' rx='1' fill='none' stroke='%23E8945A' stroke-width='1.4'/%3E%3Cpath d='M7 11l9 7 9-7' fill='none' stroke='%23E8945A' stroke-width='1.4'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500&family=Cormorant+Garamond:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0B0A0E;--void-deep:#070609;--ash:#26232A;--smoke:#8A8390;--smoke-dim:#5C5866;
+    --moon:#E8E3DA;--moon-soft:#C9C3BA;--diya:#E8945A;--diya-bright:#FFC486;--diya-deep:#A85431;
+    --serif:'Tiro Bangla',serif;--sans:'Hind Siliguri',system-ui,sans-serif;--latin:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{min-height:100%;background:radial-gradient(130% 100% at 50% 16%,#0d0b10,var(--void-deep) 82%);color:var(--smoke);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  ::selection{background:rgba(232,148,90,.22);color:var(--moon)}
+  a.back{position:fixed;top:1.3rem;left:1.5rem;z-index:40;color:var(--smoke-dim);text-decoration:none;font-family:var(--serif);font-size:1.05rem;transition:color .8s}
+  a.back:hover{color:var(--diya)}
+
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem}
+  .screen{width:100%;max-width:640px;display:none;flex-direction:column;align-items:center;text-align:center;gap:1.5rem}
+  .screen.on{display:flex;animation:rise 1.4s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .title{font-family:var(--serif);font-size:clamp(2.6rem,10vw,4.6rem);color:var(--moon);line-height:1;text-shadow:0 0 50px rgba(232,148,90,.14)}
+  .epi{font-family:var(--serif);font-style:italic;color:var(--smoke);font-size:clamp(1.05rem,3.3vw,1.28rem);line-height:1.8;max-width:34ch}
+  .epi cite{display:block;margin-top:.7rem;font-style:normal;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--smoke-dim)}
+  .instr{font-family:var(--serif);font-style:italic;color:var(--moon-soft);font-size:clamp(1.15rem,3.6vw,1.5rem);line-height:1.6}
+  .note{font-size:.8rem;letter-spacing:.06em;color:var(--smoke-dim);max-width:36ch;line-height:1.9}
+  .cta{font-family:var(--sans);font-weight:400;font-size:1rem;letter-spacing:.3em;color:var(--diya);padding:.85rem 2.2rem;border:1px solid rgba(232,148,90,.3);border-radius:1px;cursor:pointer;background:none;transition:all .9s var(--ease)}
+  .cta:hover:not(:disabled){border-color:rgba(232,148,90,.7);color:var(--diya-bright);box-shadow:0 0 40px rgba(232,148,90,.14);letter-spacing:.36em}
+  .cta:disabled{opacity:.28;cursor:not-allowed}
+  .btn2{font-family:var(--sans);font-weight:400;font-size:.9rem;letter-spacing:.18em;color:var(--smoke);padding:.7rem 1.7rem;border:1px solid var(--ash);border-radius:1px;cursor:pointer;background:none;text-decoration:none;transition:all .8s var(--ease)}
+  .btn2:hover{border-color:var(--diya-deep);color:var(--diya)}
+  .row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
+
+  input.to{background:rgba(10,9,12,.4);border:none;border-bottom:1px solid var(--ash);color:var(--diya-bright);font-family:var(--serif);font-size:clamp(1.3rem,4.5vw,1.9rem);padding:.5rem .6rem;text-align:center;outline:none;width:min(80vw,360px);transition:border-color .6s}
+  input.to:focus{border-color:var(--diya-deep)}
+  input.to::placeholder{color:var(--smoke-dim)}
+  textarea{width:100%;min-height:32vh;background:rgba(10,9,12,.4);border:1px solid var(--ash);border-radius:2px;color:var(--moon-soft);
+    font-family:var(--serif);font-size:clamp(1.1rem,3.4vw,1.4rem);line-height:1.95;padding:1.3rem 1.5rem;resize:vertical;outline:none;transition:border-color .8s}
+  textarea:focus{border-color:var(--diya-deep)}
+  textarea::placeholder{color:var(--smoke-dim);font-style:italic}
+  .dear{font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.2rem,3.8vw,1.5rem);align-self:flex-start;margin-bottom:-.6rem}
+
+  /* dissolving letter */
+  #ascend{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:2rem}
+  #ascend.on{display:flex}
+  #ascend .paper{max-width:560px;font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.1rem,3.4vw,1.4rem);line-height:1.95;text-align:center}
+  #ascend .word{display:inline-block;transition:opacity 2.4s var(--ease),transform 2.4s var(--ease),filter 2.4s var(--ease)}
+
+  /* received letter */
+  .received{width:100%;max-width:560px;border:1px solid var(--ash);border-radius:3px;padding:2rem 1.8rem;background:rgba(12,11,15,.5);text-align:left}
+  .received .rto{font-family:var(--serif);color:var(--diya);font-size:1.2rem;margin-bottom:1rem;opacity:.85}
+  .received .rbody{font-family:var(--serif);color:var(--moon-soft);font-size:clamp(1.08rem,3.2vw,1.32rem);line-height:1.9}
+  .received .rword{display:inline-block}
+  .received.fade .rword{opacity:0;filter:blur(5px);transition:opacity 1.6s var(--ease),filter 1.6s var(--ease)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">← দুঃখ</a>
+
+  <div class="wrap">
+    <div class="screen on" id="intro">
+      <h1 class="title">শেষ চিঠি</h1>
+      <p class="epi">“ভালোবাসা দিতে পারি, তোমরা কি গ্রহণে সক্ষম?”<cite>বিনয় মজুমদার · ফিরে এসো, চাকা</cite></p>
+      <p class="note">একটা চিঠি লেখো — এমন কাউকে, যার কাছে সেটা কোনোদিন পৌঁছবে না। যে চলে গেছে। যে আর কথা বলে না। কিংবা পুরোনো তুমি নিজেই।</p>
+      <button class="cta" id="to-addr">লেখা শুরু করো</button>
+    </div>
+
+    <div class="screen" id="addr">
+      <p class="instr">কাকে লিখছ?</p>
+      <input class="to" id="recipient" maxlength="24" placeholder="একটি নাম" autocomplete="off" spellcheck="false" />
+      <button class="cta" id="to-write" disabled>এবার লেখো →</button>
+      <p class="note">যেমন — মা · যে চলে গেছে · বাবা · পুরোনো আমি · যাকে বলা হয়নি</p>
+    </div>
+
+    <div class="screen" id="write">
+      <p class="dear" id="dear">প্রিয়,</p>
+      <textarea id="body" placeholder="যা কখনো বলা হয়নি, এইখানে বলে ফেলো…" spellcheck="false"></textarea>
+      <button class="cta" id="send" disabled>অন্ধকারে পাঠিয়ে দাও</button>
+      <p class="note">এই চিঠি কারও কাছে পৌঁছবে না। শুধু নাম ছাড়া থেকে যাবে — একদিন কোনো অচেনা মানুষ পড়বে।</p>
+    </div>
+
+    <div class="screen" id="after">
+      <p class="note" style="letter-spacing:.24em;text-transform:uppercase">একটি চিঠি এসেছে — তোমার জন্য নয়</p>
+      <div class="received" id="received">
+        <div class="rto" id="rto"></div>
+        <div class="rbody" id="rbody"></div>
+      </div>
+      <p class="epi" id="after-line" style="opacity:.85">তুমি পড়ে ফেললে অন্য কারও না-পাঠানো কথা। তোমারটাও কেউ একদিন পড়বে।</p>
+      <div class="row">
+        <button class="btn2" id="again">আরেকটি চিঠি</button>
+        <a class="btn2" href="index.html">জাদুঘরে ফেরো</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="ascend"><div class="paper" id="ascend-paper"></div></div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  var screens={intro:$('intro'),addr:$('addr'),write:$('write'),after:$('after')};
+  function show(name){for(var k in screens){screens[k].classList.toggle('on',k===name);}window.scrollTo(0,0);}
+
+  var KEY='dukkho_letters';
+  function getPool(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(_){return [];}}
+  function savePool(p){try{localStorage.setItem(KEY,JSON.stringify(p.slice(-200)));}catch(_){}}
+  var seeds=[
+    {to:'মা',body:'মা, ভাত খেয়েছি। সত্যি বলছি। তুমি আর জিজ্ঞেস করো না বলে এখন নিজেই নিজেকে জিজ্ঞেস করি।'},
+    {to:'যে চলে গেছে',body:'তোর নম্বরটা আজও মুছিনি। মাঝে মাঝে রিং করি। কেউ ধরে না, তবু ভালো লাগে যে সুরটা এখনো বাজে।'},
+    {to:'বাবা',body:'তুমি যে চেয়ারটায় বসতে, কেউ সরায়নি। আমরা সবাই ওটাকে পাশ কাটিয়ে হাঁটি, যেন তুমি বসে আছো।'},
+    {to:'পুরোনো আমি',body:'তুমি যা যা হতে চেয়েছিলে, তার একটাও হইনি। কিন্তু আমি ঠিক আছি। অনেকটা। বেশিরভাগ দিন।'},
+    {to:'তোকে',body:'ঝগড়াটা তুই জিতে গেছিস। আমি আর কোনোদিন বলব না যে আমি দুঃখিত। কিন্তু আমি দুঃখিত। ভীষণ।'},
+    {to:'ঠাকুমা',body:'তোমার হাতের গন্ধটা ভুলে যাচ্ছি। সেটাই সবচেয়ে ভয়ের — মানুষ নয়, গন্ধটা আগে চলে যায়।'},
+    {to:'যাকে বলা হয়নি',body:'ভালোবাসতাম। এই কথাটা এখন আর কোনো কাজে লাগবে না। তবু কোথাও একটা লিখে রাখলাম, যাতে মিথ্যে না হয়ে যায়।'},
+    {to:'ছোট ভাই',body:'তুই বড় হয়ে গেছিস, আমি খেয়ালই করিনি। এখনো তোকে সেই সাত বছরের ছেলেটা ভেবে চিঠি লিখতে বসি।'},
+    {to:'নিজের কাছে',body:'আজ কেউ জিজ্ঞেস করেনি কেমন আছি। তাই নিজেই লিখে রাখলাম — ভালো নেই, কিন্তু বেঁচে আছি।'}
+  ];
+  function ensureSeed(){var p=getPool();if(p.length<5){var need=seeds.slice();savePool(need);}}
+  ensureSeed();
+
+  $('to-addr').addEventListener('click',function(){show('addr');setTimeout(function(){try{$('recipient').focus();}catch(_){}},260);});
+  $('recipient').addEventListener('input',function(){$('to-write').disabled=$('recipient').value.trim().length===0;});
+  $('recipient').addEventListener('keydown',function(e){if(e.key==='Enter'&&$('recipient').value.trim()){goWrite();}});
+  $('to-write').addEventListener('click',goWrite);
+  function goWrite(){$('dear').textContent='প্রিয় '+$('recipient').value.trim()+',';show('write');setTimeout(function(){try{$('body').focus();}catch(_){}},260);}
+  $('body').addEventListener('input',function(){$('send').disabled=$('body').value.trim().length===0;});
+
+  $('send').addEventListener('click',function(){
+    var to=$('recipient').value.trim(), body=$('body').value.trim();
+    if(!body)return;
+    // ascend animation
+    var ap=$('ascend-paper');ap.innerHTML='';
+    ('প্রিয় '+to+', '+body).split(/(\s+)/).forEach(function(tok){
+      if(/^\s+$/.test(tok)){ap.appendChild(document.createTextNode(' '));return;}
+      var s=document.createElement('span');s.className='word';s.textContent=tok;ap.appendChild(s);
+    });
+    $('ascend').classList.add('on');
+    var ws=ap.querySelectorAll('.word');
+    // stagger upward dissolve
+    ws.forEach(function(w,i){setTimeout(function(){w.style.opacity='0';w.style.transform='translateY(-60px)';w.style.filter='blur(6px)';},400+i*70+Math.random()*120);});
+    // save yours (never delivered)
+    var pool=getPool();pool.push({to:to,body:body,t:Date.now()});savePool(pool);
+    // pick a letter that is not the one just written
+    var others=pool.filter(function(l){return l.body!==body;});
+    if(others.length===0)others=seeds;
+    var pick=others[Math.floor(Math.random()*others.length)];
+    var total=400+ws.length*70+1600;
+    setTimeout(function(){
+      $('ascend').classList.remove('on');
+      renderReceived(pick);
+      show('after');
+    },Math.min(total,6500));
+  });
+
+  function renderReceived(letter){
+    $('rto').textContent='প্রিয় '+letter.to+',';
+    var rb=$('rbody');rb.innerHTML='';
+    letter.body.split(/(\s+)/).forEach(function(tok){
+      if(/^\s+$/.test(tok)){rb.appendChild(document.createTextNode(' '));return;}
+      var s=document.createElement('span');s.className='rword';s.textContent=tok;rb.appendChild(s);
+    });
+    $('received').classList.remove('fade');
+    // one read, then it fades away for good
+    setTimeout(function(){$('received').classList.add('fade');},9000);
+  }
+
+  $('again').addEventListener('click',function(){
+    $('recipient').value='';$('body').value='';$('to-write').disabled=true;$('send').disabled=true;
+    show('addr');setTimeout(function(){try{$('recipient').focus();}catch(_){}},260);
+  });
+})();
+</script>
+</body>
+</html>
